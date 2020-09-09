@@ -1,0 +1,151 @@
+html,body {
+  margin: 5px;
+  padding: 5px;
+  font-size: 16px;
+  font-family: Arial, Helvetica, Serif;
+}
+
+
+header{
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  padding: 10px;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+  height: 25px;
+}
+header .nav-bar{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+header .nav-bar li {
+  display: inline-block;
+}
+
+header .nav-bar li + li {
+  border-left: 2px solid gray;
+  padding-left:  5px;
+}
+
+header .user-bar{
+
+}
+
+img{
+  float: right;
+}
+
+.post{
+  border: 2px solid black;
+  height: 150px;
+  padding: 10px;
+  box-sizing: border-box;
+  position: relative;
+  margin: 5px;
+}
+
+.title{
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.post-section{
+  width: 80%;
+  display: inline-block;
+  font-size: 14px;
+  box-sizing:  border-box;
+  padding:  10px 25px 10px 10px;
+}
+
+.post-section .posts-list{
+
+}
+
+.post-section .posts-list .post {
+  border: 2px solid black;
+  height: 150px;
+  padding: 10px;
+  box-sizing: border-box;
+  position: relative;
+  margin: 5px;
+}
+
+.post-section .posts-list .post + .post{
+  margin-top: 15px;
+
+}
+.post-section .posts-list .post .post-title{
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.post-section .posts-list .post .post-content {
+  padding-right: 100px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+
+}
+
+.post-section .posts-list .post .post-footer{
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.post-section .posts-list .post .post-image{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.side-bar-section {
+  width: 20%;
+  display: inline-block;
+  font-size: 14px;
+  vertical-align:  top;
+  padding: 10px;
+  box-sizing: border-box;
+
+  position: sticky;
+  top: 30px;
+  background-color: white;
+  z-index: 1;
+}
+
+.side-bar-section .side-bar-list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+}
+
+.side-bar-section hr {
+  margin: 25px 0;
+}
+
+.side-bar-section .side-bar-list li{
+  padding: 5px 0;
+}
+
+input{
+  border: solid black 1px;
+  width: 404px;
+}
+
+textarea{
+  border: solid black 1px;
+  width: 400px;
+}
+
+/*.button{*/
+/*  border: solid black 1px;*/
+/*}*/

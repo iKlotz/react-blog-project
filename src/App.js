@@ -58,7 +58,7 @@ class App extends React.Component {
                 <Router>
                     <Header user={firstName} isLoggedIn={isLoggedIn} userId={userId} onLogout={this.onLogout}/>
                     <Switch>
-                        <Route path='/register' component={Register}/>
+                        <Route path='/register' component={() => <Register isLoggedIn={this.state.isLoggedIn} setLogin={this.setLogin} />}/>
                         <Route path='/login' component={() => <Login isLoggedIn={this.state.isLoggedIn} setLogin={this.setLogin} />}/>
                         {/*<Route path='/post/:id' component={Post} />*/}
                         <Route path='/post/:id' component={(props) => <Post {...props} user={firstName} userId={userId} />}/>

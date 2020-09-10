@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import {Link, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
+import {Grid, TextField, Button, InputAdornment} from "@material-ui/core";
+import {LockRounded, Email} from "@material-ui/icons";
 
 class Login extends React.Component {
     constructor(props) {
@@ -32,8 +34,7 @@ class Login extends React.Component {
                     password: ''
                 });
 
-                console.log("Great success!")
-
+                console.log("Great success!");
                 this.props.setLogin(res.data)
 
             })
@@ -54,39 +55,75 @@ class Login extends React.Component {
 
         const {email, password} = this.state;
         return (
-            <div className='form-container'>
-                <h1>
-                    Account Login
-                </h1>
-                <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="username">Email</label>
-                        <input
-                            type="text"
-                            name="email"
-                            value={email}
-                            onChange={this.onChange}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password </label>
-                        <input
-                            type="password"
-                            name="password"
-                            value={password}
-                            onChange={this.onChange}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <input type="submit"
-                               value="Login"
-                               className="btn btn-secondary btn-block"
-                        />
-                    </div>
-                </form>
+            <div>
+                <Grid container style={{minHeight: '100vh'}}>
+                    <Grid item xs={12} sm={6}>
+                        <img
+                            src="https://render.fineartamerica.com/images/rendered/default/poster/8/10/break/images-medium-5/a-brooklyn-perspective-az-jackson.jpg"
+                            style={{width: '100%', height: '100%', objectFit: 'cover'}} alt="cover"/>
+                    </Grid>
+                    <Grid
+                        container
+                        item xs={12}
+                        sm={6}
+                        alignItems='center'
+                        direction="column"
+                        justify="space-between"
+                        style={{padding: 10}}
+                    >
+                        <div/>
+                        <div style={{display: 'flex', flexDirection: 'column', maxWidth: 400, minWidth: 300}}>
+                            <Grid container justify="center">
+                                <h1 width={200}>Account Login</h1>
+                            </Grid>
+                                <TextField
+                                    label="email"
+                                    margin='normal'
+                                    name="email"
+                                    value={email}
+                                    onChange={this.onChange}
+                                    InputProps={{
+                                        startAdornment: <InputAdornment position="start"><Email/></InputAdornment>
+                                    }}
+                                />
+                                <TextField
+                                    type="password"
+                                    label="password"
+                                    margin='normal'
+                                    name="password"
+                                    value={password}
+                                    onChange={this.onChange}
+                                    InputProps={{
+                                        startAdornment: <InputAdornment position="start"><LockRounded/></InputAdornment>
+                                    }}
+                                />
+                                {/*<div style={{height: 20}}/>*/}
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    type="submit"
+                                    onClick={e => this.onSubmit(e)}>
+                                    Log in
+                                </Button>
+                            <Button>Not a member yet?</Button>
+                        </div>
+                        <Grid container justify="center" spacing={2}>
+                            <Grid item>
+                                <Button color="primary">
+                                    Go to hell
+                                </Button>
+                            </Grid>
+                            <Grid item>
+                                <Button variant="outlined">
+                                    Forgot password?
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </div>
+
+
         );
     }
 }

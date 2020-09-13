@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import {Grid, TextField, Button, InputAdornment} from "@material-ui/core";
 import {LockRounded, Email} from "@material-ui/icons";
+import Typography from "@material-ui/core/Typography";
 
 class Login extends React.Component {
     constructor(props) {
@@ -52,29 +53,31 @@ class Login extends React.Component {
             return (<Redirect to="/"/>)
         }
 
-
         const {email, password} = this.state;
+
         return (
             <div>
-                <Grid container style={{minHeight: '100vh'}}>
-                    <Grid item xs={12} sm={6}>
-                        <img
-                            src="https://render.fineartamerica.com/images/rendered/default/poster/8/10/break/images-medium-5/a-brooklyn-perspective-az-jackson.jpg"
-                            style={{width: '100%', height: '100%', objectFit: 'cover'}} alt="cover"/>
-                    </Grid>
+                <Grid container justify="center" style={{minHeight: '80vh'}}>
+                    {/*<Grid item xs={12} sm={6}>*/}
+                    {/*    <img*/}
+                    {/*        src="https://render.fineartamerica.com/images/rendered/default/poster/8/10/break/images-medium-5/a-brooklyn-perspective-az-jackson.jpg"*/}
+                    {/*        style={{width: '100%', height: '100%', objectFit: 'cover'}} alt="cover"/>*/}
+                    {/*</Grid>*/}
                     <Grid
                         container
                         item xs={12}
                         sm={6}
                         alignItems='center'
                         direction="column"
-                        justify="space-between"
-                        style={{padding: 10}}
+                        justify="center"
+                        style={{padding: 2}}
                     >
                         <div/>
                         <div style={{display: 'flex', flexDirection: 'column', maxWidth: 400, minWidth: 300}}>
                             <Grid container justify="center">
-                                <h1 width={200}>Account Login</h1>
+                                <Typography>
+                                    <h1 width={200}>Account Login</h1>
+                                </Typography>
                             </Grid>
                                 <TextField
                                     label="email"
@@ -122,8 +125,6 @@ class Login extends React.Component {
                     </Grid>
                 </Grid>
             </div>
-
-
         );
     }
 }

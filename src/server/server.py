@@ -120,7 +120,7 @@ def add_post():
 
 def get_all_posts():
     query = "select id, author, title, content, image, published from posts;"
-    comments_query = "select id, title, content, author, published from post_comment;"
+    #comments_query = "select id, title, content, author, published from post_comment;"
     cursor = db.cursor()
     cursor.execute(query)
     records = cursor.fetchall()
@@ -178,14 +178,14 @@ def add_post_comment(id):
 @app.route('/posts/<id>')
 
 def get_post_by_id(id):
-    query = "select id, title, content, author, published from posts where id = (%s)"
+    query = "select id, title, content, author, image, published from posts where id = (%s)"
     value =(id,)
-    print(id)
+    #print(id)
     cursor = db.cursor()
     cursor.execute(query,value)
     records = cursor.fetchall()
     print(records)
-    header = ['id', 'title', 'content', 'author', 'published']
+    header = ['id', 'title', 'content', 'author', 'image', 'published']
     cursor.close()
     post = dict(zip(header,records[0]))
     post.update({"comments": get_post_comments(records[0][0])})

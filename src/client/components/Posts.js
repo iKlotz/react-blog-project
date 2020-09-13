@@ -1,6 +1,7 @@
 import React from 'react';
 import PostCard from './PostCard';
 import axios from "axios";
+import Grid from "@material-ui/core/Grid";
 
 class Posts extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class Posts extends React.Component {
 
     render() {
         return this.state.posts.map(function (post) {
-            return <PostCard
+            return<PostCard
                 title={post.title}
                 content={post.content}
                 image={post.image}

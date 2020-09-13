@@ -1,5 +1,62 @@
 import React from 'react';
 import axios from 'axios';
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import {withStyles} from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import {Link} from "react-router-dom";
+import CardMedia from "@material-ui/core/CardMedia";
+
+// const styles = theme => ({
+//     root: {
+//         width: "100%",
+//         backgroundColor: theme.palette.background.paper
+//     },
+//     fonts: {
+//         fontWeight: "bold"
+//     },
+//     inline: {
+//         display: "inline"
+//     }
+// });
+const styles = theme => ({
+    root: {
+        width: "100%",
+        backgroundColor: theme.palette.background.paper
+    },
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(3),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+
+    button: {
+        margin: theme.spacing(0, 0, 2),
+        justifyContent: "space-between"
+    },
+
+    text: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        minWidth: 600
+    }
+});
 
 class AddComment extends React.Component {
 
@@ -17,6 +74,7 @@ class AddComment extends React.Component {
             title: e.target.value,
         })
     };
+
     onContentChange = (e) => {
         this.setState({
             content: e.target.value,
@@ -48,22 +106,32 @@ class AddComment extends React.Component {
     };
 
     render() {
+
+        const {classes} = this.props;
+
         return (
-            <div className="post-form">
-                <h2>Add comment</h2>
-                <p>
-                    <form>
-                        <input type="text" placeholder="Comment title goes here..." onChange={this.onTitleChange} value={this.state.title}></input>
-                        <br/><br/>
-                        <textarea rows="8" cols="50" placeholder="Comment content goes here..." onChange={this.onContentChange} value={this.state.content}></textarea>
-                        <br/><br/>
-                        <button className="button" type="submit" onClick={this.onSubmit}>Add comment</button>
-                    </form>
-                </p>
+            <div className={classes.root}>
+                <form className={classes.root} noValidate autoComplete="off">
+                    <Grid ixs={12} sm={6}>
+                        <TextField className={classes.text}
+                                   id="standard-basic"
+                                   label="Add public comment"
+                                   onChange={this.onContentChange}
+                                   value={this.state.content}
+                        />
+                    </Grid>
+                    <Grid container justify="flex-end">
+                        <Button className={classes.button}
+                                type="submit"
+                                variant="text"
+                                onClick={this.onSubmit}>Add comment
+                        </Button>
+                    </Grid>
+                </form>
             </div>
         )
 
     }
 }
 
-export default AddComment;
+export default withStyles(styles, {withTheme: true})(AddComment);

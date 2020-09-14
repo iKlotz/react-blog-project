@@ -14,13 +14,27 @@ import './App.css';
 import axios from "axios";
 
 
+
+
 class App extends React.Component {
     constructor(props){
         super(props);
         this.state ={
             firstName: '',
             userId: '',
-            isLoggedIn: false
+            isLoggedIn: false,
+            sections: [
+                { title: 'Technology', url: '#' },
+                { title: 'Design', url: '#' },
+                { title: 'Culture', url: '#' },
+                { title: 'Business', url: '#' },
+                { title: 'Politics', url: '#' },
+                { title: 'Opinion', url: '#' },
+                { title: 'Science', url: '#' },
+                { title: 'Health', url: '#' },
+                { title: 'Style', url: '#' },
+                { title: 'Travel', url: '#' },
+            ]
         }
     }
 
@@ -52,11 +66,11 @@ class App extends React.Component {
     };
 
     render() {
-        const {firstName, isLoggedIn, userId} = this.state;
+        const {firstName, isLoggedIn, userId, sections} = this.state;
         return (
             <div>
                 <Router>
-                    <Header user={firstName} isLoggedIn={isLoggedIn} userId={userId} onLogout={this.onLogout}/>
+                    <Header user={firstName} isLoggedIn={isLoggedIn} userId={userId} onLogout={this.onLogout} sections={sections}/>
                     <Switch>
                         <Route path='/register' component={() => <Register isLoggedIn={this.state.isLoggedIn} setLogin={this.setLogin} />}/>
                         <Route path='/login' component={() => <Login isLoggedIn={this.state.isLoggedIn} setLogin={this.setLogin} />}/>

@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import MainFeaturedPost from "./MainFeaturedPost";
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -54,6 +55,17 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+
+const mainFeaturedPost = {
+    title: 'Title of a longer featured blog post',
+    description:
+        "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
+    image: 'https://source.unsplash.com/random',
+    imgText: 'main image description',
+    linkText: 'Continue reading…',
+};
+
+
 function MainSection() {
     const classes = useStyles();
 
@@ -61,9 +73,11 @@ function MainSection() {
         <section className="post-section">
             {/*<label className="title">This is my blog</label>*/}
             <Container maxWidth="false" className={classes.blogsContainer}>
-                <Typography variant="h4" className={classes.blogTitle}>
-                    Articles
-                </Typography>
+                {/*<Typography variant="h4" className={classes.blogTitle}>*/}
+                {/*    Articles*/}
+                {/*</Typography>*/}
+                <MainFeaturedPost post={mainFeaturedPost} />
+
 
                 <Grid container spacing={3}>
                     <Posts/>

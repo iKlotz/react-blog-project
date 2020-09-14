@@ -5,9 +5,10 @@ import {Email, LockRounded, Person} from "@material-ui/icons";
 import {Redirect} from 'react-router-dom';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+//import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { Link } from 'react-router-dom'
 import { withStyles } from "@material-ui/core/styles";
 
 function Copyright() {
@@ -186,7 +187,7 @@ class Register extends React.Component {
                         </Button>
                         <Grid container justify="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link to="/login" style={{ textDecoration: 'none'}}>
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>

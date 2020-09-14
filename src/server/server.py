@@ -107,9 +107,9 @@ def add_post():
     data = request.get_json()
     print(data)
     current_time = datetime.now()
-    author = "Ido Klotz" #set default to anonymous???
-    query = "insert into posts (author, title, content, published) values (%s ,%s, %s, %s)"
-    values = (author, data["title"], data["content"], current_time)
+    author = data["author"] if data["author"] else "anonymous"
+    query = "insert into posts (author, title, content, image, published) values (%s ,%s, %s, %s, %s)"
+    values = (author, data["title"], data["content"], data["image"], current_time)
     cursor = db.cursor()
     cursor.execute(query, values)
     db.commit()

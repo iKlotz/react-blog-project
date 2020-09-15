@@ -7,11 +7,13 @@ import About from "./client/pages/About";
 import ContactMe from "./client/pages/ContactMe";
 import Post from "./client/pages/Post";
 import CreatePost from "./client/pages/CreatePost";
+import SearchPage from "./client/pages/SearchPage";
 import Login from "./client/components/Auth/Login";
 import Register from "./client/components/Auth/Register";
 
 import './App.css';
 import axios from "axios";
+import Search from "./client/components/Search";
 
 
 
@@ -76,6 +78,7 @@ class App extends React.Component {
                         <Route path='/login' component={() => <Login isLoggedIn={this.state.isLoggedIn} setLogin={this.setLogin} />}/>
                         <Route path='/post/:id' component={(props) => <Post {...props} user={firstName} userId={userId} />}/>
                         <Route path="/about" component={About}/>
+                        <Route path='/search/:query' component={(props) => <SearchPage {...props} />}/>
                         <Route path="/contact" component={ContactMe}/>
                         <Route path="/new-post" component={CreatePost}/>
                         <Route path="/" component={Home}/>

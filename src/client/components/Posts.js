@@ -22,7 +22,7 @@ class Posts extends React.Component {
 
     render() {
         return this.state.posts.map(function (post) {
-            return<PostCard
+            return <PostCard
                 title={post.title}
                 content={post.content}
                 image={post.image}

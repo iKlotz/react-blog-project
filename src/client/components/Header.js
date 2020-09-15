@@ -9,7 +9,7 @@
 // import MenuItem from '@material-ui/core/MenuItem';
 // import Menu from '@material-ui/core/Menu';
 // import MenuIcon from '@material-ui/icons/Menu';
-// import SearchIcon from '@material-ui/icons/Search';
+// import SearchIcon from '@material-ui/icons/SearchPage';
 // import AccountCircle from '@material-ui/icons/AccountCircle';
 // import Person from '@material-ui/icons/Person';
 // import ExitToApp from '@material-ui/icons/ExitToApp';
@@ -239,7 +239,7 @@
 //                             <SearchIcon />
 //                         </div>
 //                         <InputBase
-//                             placeholder="Search…"
+//                             placeholder="SearchPage…"
 //                             classes={{
 //                                 root: classes.inputRoot,
 //                                 input: classes.inputInput,
@@ -388,9 +388,19 @@ const styles = theme => ({
 class Header extends React.Component {
     constructor(props) {
         super(props);
+        this.inputText = React.createRef();
+        this.state = {
+            inputText: ''
+        };
     }
 
-    // const classes = useStyles();
+    onChange = e => this.setState({...this.state, [e.target.name]: e.target.value});
+
+    onSubmit = e => {
+        e.preventDefault();
+        console.log(this.state.inputText);
+    };
+
     render() {
         const {classes} = this.props;
 
@@ -438,6 +448,7 @@ class Header extends React.Component {
                             <div className={classes.searchIcon}>
                                 <SearchIcon />
                             </div>
+                            <form onSubmit={this.onSubmit}>
                             <InputBase
                                 placeholder="Search…"
                                 classes={{
@@ -445,7 +456,16 @@ class Header extends React.Component {
                                     input: classes.inputInput,
                                 }}
                                 inputProps={{ 'aria-label': 'search' }}
+                                //input={<input ref={this.text} type="text"  onChange={this.onChange}/>}
+                                //inputRef={this.inputText}
+                                type='text'
+                                name='inputText'
+                                value={this.state.inputText}
+                                onChange={this.onChange}
                             />
+
+
+                            </form>
                         </div>
 
                         <Button variant="outlined" size="small">

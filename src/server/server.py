@@ -146,7 +146,7 @@ def manage_comments(id):
         return add_post_comment(id)
 
 def get_post_comments(id):
-    query = "select title, published_at, content, author_id from post_comment where post_id = (%s)"
+    query = "select title, published_at, content, author_id from comments where post_id = (%s)"
     value = (id,)
     cursor = db.cursor()
     cursor.execute(query, value)
@@ -190,6 +190,27 @@ def get_post_by_id(id):
     post = dict(zip(header,records[0]))
     post.update({"comments": get_post_comments(records[0][0])})
     return json.dumps(post, indent=4, sort_keys=True, default=str)
+
+
+@app.route('/search/<key>')
+
+def filter_records(key):
+    query_key = "%" + key + "%"
+    query = "select id, author, title, content, image, published from posts WHERE title like %s OR content like %s OR author like %s"
+    value = (query_key, query_key, query_key)
+    cursor = db.cursor()
+    cursor.execute(query, value)
+    records = cursor.fetchall()
+    cursor.close()
+    header = ['id', 'author', 'title', 'content', 'image', 'published']
+    data = []
+
+    for r in records:
+        post = dict(zip(header, r))
+        data.append(post)
+
+    return json.dumps(data, default=str)
+
 
 @app.route('/api/alive', methods=['GET'])
 def api_alive():

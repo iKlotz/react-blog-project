@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {withStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 
@@ -35,14 +34,14 @@ const styles = theme => ({
     },
 
     text: {
-        marginTop: theme.spacing(8),
+        marginTop: theme.spacing(3),
         display: 'flex',
         flexDirection: 'column',
         minWidth: 600
     }
 });
 
-class AddComment extends React.Component {
+class AddTag extends React.Component {
 
     constructor(props) {
         super(props);
@@ -95,21 +94,14 @@ class AddComment extends React.Component {
 
         return (
             <div className={classes.root}>
-                <form className={classes.root} noValidate autoComplete="off">
+                <form className={classes.root} noValidate autoComplete="off" onSubmit={this.onSubmit}>
                     <Grid ixs={12} sm={6}>
                         <TextField className={classes.text}
                                    id="standard-basic"
-                                   label="Add public comment"
+                                   label="Add tag"
                                    onChange={this.onContentChange}
                                    value={this.state.content}
                         />
-                    </Grid>
-                    <Grid container justify="flex-end">
-                        <Button className={classes.button}
-                                type="submit"
-                                variant="text"
-                                onClick={this.onSubmit}>Add comment
-                        </Button>
                     </Grid>
                 </form>
             </div>
@@ -117,4 +109,4 @@ class AddComment extends React.Component {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(AddComment);
+export default withStyles(styles, {withTheme: true})(AddTag);

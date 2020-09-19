@@ -80,7 +80,7 @@ class App extends React.Component {
                         <Route path="/about" component={About}/>
                         <Route path='/search/:query' component={(props) => <SearchPage {...props} />}/>
                         <Route path="/contact" component={ContactMe}/>
-                        <Route path="/new-post" component={CreatePost}/>
+                        <Route path="/new-post" component={(props) => <CreatePost {...props} />}/>
                         <Route path="/" component={Home}/>
                     </Switch>
                 </Router>

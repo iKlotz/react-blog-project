@@ -4,6 +4,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import {Divider} from "@material-ui/core";
+import AddTag from "./AddTag";
+import TagsArray from "./TagsArray";
 
 
 class NewPost extends React.Component {
@@ -13,7 +16,7 @@ class NewPost extends React.Component {
         this.state = {
             title: undefined,
             content: undefined,
-            author: null,
+            authorId: undefined,
             image: undefined,
             //why undefined and why null?
         };
@@ -21,39 +24,37 @@ class NewPost extends React.Component {
 
     onChange = e => this.setState({...this.state, [e.target.name]: e.target.value});
 
-    // onTitleChange = (e) => {
-    //     this.setState({
-    //         title: e.target.value,
-    //     })
-    // };
-    // onContentChange = (e) => {
-    //     this.setState({
-    //         content: e.target.value,
-    //     })
-    // };
 
     onSubmit = (e) => {
         e.preventDefault();
+        const {userId} = this.props.location.state;
+        const {title, content, image} = this.state;
         const data = {
-            title: this.state.title,
-            content: this.state.content,
-            author: this.state.author,
-            image: this.state.image,
+            title: title,
+            content: content,
+            authorId: userId,
+            image: image,
         };
+
 
         axios.post('/posts', data).then(res => {
             //const post = res.data;
             this.setState({
                 title: '',
                 content: '',
-                author: '',
-                image : ''
+                authorId: '',
+                image: ''
             });
         })
     };
 
+    // componentDidMount () {
+    //     const { userId } = this.props.location;
+    //     this.setState({authorId: userId})
+    // }
+
     render() {
-        const { title, image, content, author} = this.state;
+        const {title, image, content, authorId} = this.state;
         return (
             <Grid container justify="center" style={{minHeight: '80vh'}}>
                 <div style={{display: 'flex', flexDirection: 'column', maxWidth: 600, minWidth: 500, marginTop: 100}}>
@@ -96,16 +97,19 @@ class NewPost extends React.Component {
                                 id="filled-helperText"
                                 label="Link"
                                 placeholder="https://image-you-want-to-add.com"
-                                helperText="I like your style ;)"
-                                variant="filled"
+                                helperText="Add your images URL here"
+                                variant="outlined"
                                 onChange={this.onChange}
                                 value={image}
                                 name="image"
                                 style={{width: 600, marginTop: '10px'}}
                             />
                         </Grid>
+                        <AddTag/>
+                        <Divider/>
+                        <TagsArray/>
 
-                        <Grid container justify="flex-end">
+                        <Grid container justify="flex-end" style={{marginTop: '10px'}}>
                             <Button
                                 variant="outlined"
                                 type="submit"

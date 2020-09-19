@@ -107,9 +107,8 @@ def add_post():
     data = request.get_json()
     print(data)
     current_time = datetime.now()
-    author = data["author"] if data["author"] else "anonymous"
-    query = "insert into posts (author, title, content, image, published) values (%s ,%s, %s, %s, %s)"
-    values = (author, data["title"], data["content"], data["image"], current_time)
+    query = "insert into posts (author_id, title, content, image, published) values (%s ,%s, %s, %s, %s)"
+    values = (data["authorId"], data["title"], data["content"], data["image"], current_time)
     cursor = db.cursor()
     cursor.execute(query, values)
     db.commit()
@@ -119,13 +118,14 @@ def add_post():
 
 
 def get_all_posts():
-    query = "select id, author, title, content, image, published from posts;"
+    #query = "select id, author_id, title, content, image, published from posts;"
+    query = "select posts.id, author_id, title, content, image, published, first_name, last_name from posts join users on posts.author_id = users.id;"
     #comments_query = "select id, title, content, author, published from post_comment;"
     cursor = db.cursor()
     cursor.execute(query)
     records = cursor.fetchall()
     cursor.close()
-    header = ['id', 'author', 'title', 'content', 'image', 'published']
+    header = ['id', 'author_id', 'title', 'content', 'image', 'published', 'first_name', 'last_name']
     data = []
 
     for r in records:
@@ -178,14 +178,14 @@ def add_post_comment(id):
 @app.route('/posts/<id>')
 
 def get_post_by_id(id):
-    query = "select id, title, content, author, image, published from posts where id = (%s)"
+    query = "select posts.id, author_id, title, content, image, published, first_name, last_name from posts join users on posts.author_id = users.id where posts.id = (%s)"
     value =(id,)
     #print(id)
     cursor = db.cursor()
     cursor.execute(query,value)
     records = cursor.fetchall()
     print(records)
-    header = ['id', 'title', 'content', 'author', 'image', 'published']
+    header = ['id', 'author_id', 'title', 'content', 'image', 'published', 'first_name', 'last_name']
     cursor.close()
     post = dict(zip(header,records[0]))
     post.update({"comments": get_post_comments(records[0][0])})
@@ -196,13 +196,13 @@ def get_post_by_id(id):
 
 def filter_records(key):
     query_key = "%" + key + "%"
-    query = "select id, author, title, content, image, published from posts WHERE title like %s OR content like %s OR author like %s"
-    value = (query_key, query_key, query_key)
+    query = "select posts.id, first_name, last_name, title, content, image, published from posts join users on posts.author_id = users.id WHERE title like %s OR content like %s OR first_name like %s OR last_name like %s"
+    value = (query_key, query_key, query_key, query_key)
     cursor = db.cursor()
     cursor.execute(query, value)
     records = cursor.fetchall()
     cursor.close()
-    header = ['id', 'author', 'title', 'content', 'image', 'published']
+    header = ['id', 'first_name', 'last_name', 'title', 'content', 'image', 'published']
     data = []
 
     for r in records:

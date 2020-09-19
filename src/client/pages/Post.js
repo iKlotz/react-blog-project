@@ -8,6 +8,8 @@ import Comment from "../components/Comment";
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import TagsArray from "../components/TagsArray";
+import AddTag from "../components/AddTag";
 
 
 class Post extends React.Component {
@@ -30,7 +32,7 @@ class Post extends React.Component {
 
     render() {
 
-        const {author, title, content, comments, image} = this.state.post;
+        const {first_name, last_name, title, content, comments, image} = this.state.post;
 
         return (
             <Grid container justify="center" style={{minHeight: '80vh'}}>
@@ -39,19 +41,18 @@ class Post extends React.Component {
                         <h1>{title}</h1>
                     </Typography>
                     <Grid item xs={12} sm={6} md={4}>
-                        <img src={image}
-                             style={{display: 'flex', flexDirection: 'column', width: 600, maxHeight: 400}}/>
+                        <img src={image} style={{display: 'flex', flexDirection: 'column', width: 600, maxHeight: 400}}/>
                     </Grid>
                     <Grid container justify="flex-end">
                         <Typography variant="h6" fontFamily="Charter">
-                            by {author}
+                            by {first_name} {last_name}
                         </Typography>
                     </Grid>
                     <Typography>
                         <p>{content}</p>
                     </Typography>
+                    <TagsArray/>
                     <AddComment id={this.props.match.params.id}/>
-                    <Divider/>
                     {comments ? <Comment comments={comments}/> : <CircularProgress/>}
                 </div>
             </Grid>

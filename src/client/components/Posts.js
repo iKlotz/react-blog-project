@@ -27,7 +27,7 @@ class Posts extends React.Component {
                 content={post.content}
                 image={post.image}
                 published={post.published}
-                author={post.author}
+                author={post.first_name}
                 id={post.id}
             />
         })

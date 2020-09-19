@@ -1,10 +1,10 @@
 import React from "react";
 import AddPost from "../components/AddPost";
 
-function CreatePost () {
+function CreatePost (props) {
     return (
         <div>
-            <AddPost/>
+            <AddPost {...props}/>
         </div>
     )
 }

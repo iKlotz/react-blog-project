@@ -98,6 +98,9 @@ class Header extends React.Component {
             <React.Fragment>
                 {this.props.isLoggedIn ?
                     <Toolbar className={classes.toolbar}>
+                        <Button size="small" disabled>
+                            <Link to="#" style={{textDecoration: 'none', color: 'black'}}>Hi, {this.props.user}</Link>
+                        </Button>
                         <Button size="small" >
                             <Link
                                 style={{textDecoration: 'none', color: 'black'}}
@@ -140,8 +143,16 @@ class Header extends React.Component {
                             </form>
                         </div>
 
-                        <Button size="small" disabled>
-                            <Link to="#" style={{textDecoration: 'none', color: 'black'}}>Hi, {this.props.user}</Link>
+
+                        <Button variant="outlined" size="small">
+                            <Link
+                                style={{textDecoration: 'none', color: 'black'}}
+                                to={{
+                                    pathname: `/search/${this.state.inputText}`,
+                                    state: {
+                                        query: this.state.inputText
+                                    }}}
+                            >Search</Link>
                         </Button>
 
                         <Button variant="outlined" size="small" onClick={this.props.onLogout}>
@@ -198,11 +209,6 @@ class Header extends React.Component {
                                     }}}
                             >Search</Link>
                         </Button>
-
-                        {/*<Button variant="outlined" size="small">*/}
-                        {/*    <Link to="/register" style={{textDecoration: 'none', color: 'black'}}>Sign up</Link>*/}
-                        {/*</Button>*/}
-
                         <Button variant="outlined" size="small">
                             <Link to="/login" style={{textDecoration: 'none', color: 'black'}}>Sign in</Link>
                         </Button>

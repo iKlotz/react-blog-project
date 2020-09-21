@@ -115,35 +115,24 @@ class Login extends React.Component {
                                 variant="contained"
                                 type="submit"
                                 onClick={e => this.onSubmit(e)}>
-                                Log in
+                                Sign in
                             </Button>
-                            {/*<Grid container justify="center">*/}
-                                <GoogleLogin
-                                    clientId="354081205543-jabqkm7h9ugpus91nkblj9nhto02pc4m.apps.googleusercontent.com"
-                                    buttonText="Login with Google"
-                                    onSuccess={this.onGoogleResponse}
-                                    onFailure={this.onGoogleResponse}
-                                    cookiePolicy={'single_host_origin'}
-                                />
-                            {/*</Grid>*/}
+
+                            <GoogleLogin
+                                clientId="354081205543-jabqkm7h9ugpus91nkblj9nhto02pc4m.apps.googleusercontent.com"
+                                buttonText="Sign in with Google"
+                                onSuccess={this.onGoogleResponse}
+                                onFailure={this.onGoogleResponse}
+                                cookiePolicy={'single_host_origin'}
+                            />
+
                             <Button>
                                 <Link to="/register">
                                     Not a member yet?
                                 </Link>
                             </Button>
                         </div>
-                        {/*<Grid container justify="center" spacing={2}>*/}
-                        {/*    <Grid item>*/}
-                        {/*        <Button variant="outlined">*/}
-                        {/*            Forgot password?*/}
-                        {/*        </Button>*/}
-                        {/*    </Grid>*/}
-                        {/*    <Grid item>*/}
-                        {/*        <Button color="primary" disabled>*/}
-                        {/*            Go to hell*/}
-                        {/*        </Button>*/}
-                        {/*    </Grid>*/}
-                        {/*</Grid>*/}
+
                     </Grid>
                 </Grid>
             </div>

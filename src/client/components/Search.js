@@ -7,6 +7,7 @@ import Posts from "./Posts";
 import Container from "@material-ui/core/Container";
 import Redirect from "react-router-dom/es/Redirect";
 
+
 class Search extends React.Component {
 
     constructor(props) {
@@ -49,7 +50,6 @@ class Search extends React.Component {
             return(
                 <PostCard
                 title={post.title}
-                content={post.content + '...'}
                 image={post.image}
                 published={post.published}
                 author={post.first_name + ' ' + post.last_name}

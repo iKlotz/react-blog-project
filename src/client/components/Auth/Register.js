@@ -5,7 +5,6 @@ import {Email, LockRounded, Person} from "@material-ui/icons";
 import {Redirect} from 'react-router-dom';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-//import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Link } from 'react-router-dom'
@@ -93,7 +92,7 @@ class Register extends React.Component {
     };
 
     render() {
-        //todo: add password validation function
+
         if (this.props.isLoggedIn) {
             return (<Redirect to="/"/>)
         }

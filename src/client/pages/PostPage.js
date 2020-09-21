@@ -45,8 +45,8 @@ class PostPage extends React.Component {
         return (
             <Grid container justify="center" style={{minHeight: '80vh'}}>
                 <div style={{display: 'flex', flexDirection: 'column', maxWidth: 600, minWidth: 300}}>
-                    <Typography>
-                        <h1>{title}</h1>
+                    <Typography >
+                        <h1 style={{textAlign: 'center'}}>{title}</h1>
                     </Typography>
                     <Grid item xs={12} sm={6} md={4}>
                         <img src={image} style={{display: 'flex', flexDirection: 'column', width: 600, maxHeight: 400}}/>

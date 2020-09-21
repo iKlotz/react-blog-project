@@ -13,7 +13,7 @@ db = mysql.connect(
     user = "root",
     passwd = "BKNY1987",
     database = "blog")
-print(db)
+
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 CORS(app)
@@ -49,31 +49,13 @@ def login():
     db.commit()
     res_data = {"first_name": first_name, "user_id": user_id, "session_id": session_id}
     res = make_response(res_data)
-    res.set_cookie("session_id", session_id)
+    res.set_cookie("session_id", session_id, expires=3600)
+    res.set_cookie("user_id", str(user_id), expires=3600)
+    res.set_cookie("first_name", (first_name), expires=3600)
+
     return res
 
-@app.route('/sessions/<session_id>', methods=['GET'])
-def get_user(session_id):
-    data = request.get_json()
-    query = "select first_name, user_id from sessions join users on user_id = id where session_id = (%s)"
-    values = (session_id, )
-    cursor = db.cursor()
-    try:
-        cursor.execute(query, values)
-        record = cursor.fetchone()
-        first_name = record[0]
-        user_id = record[1]
-        res_data = {"first_name": first_name, "user_id": user_id}
-        print(res_data)
-        header = ['first_name', 'user_id']
-        user = dict(zip(header, record))
 
-        return json.dumps(user, default=str)
-    except:
-        return "Not logged in"
-    finally:
-        cursor.close()
-        db.commit()
 
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -87,6 +69,8 @@ def logout():
     cursor.close()
     res = make_response()
     res.set_cookie("session_id", '', expires=0)
+    res.set_cookie("user_id", '', expires=0)
+    res.set_cookie("first_name", '', expires=0)
     return res
 
 @app.route('/register', methods=['POST'])
@@ -155,7 +139,7 @@ def add_post():
 
 def get_all_posts():
     #query = "select id, author_id, title, content, image, published from posts;"
-    query = "select posts.id, author_id, title, left(content, 250), image, published, first_name, last_name from posts join users on posts.author_id = users.id;"
+    query = "select posts.id, author_id, title, left(content, 150), image, published, first_name, last_name from posts join users on posts.author_id = users.id;"
     #comments_query = "select id, title, content, author, published from post_comment;"
     cursor = db.cursor()
     cursor.execute(query)
@@ -166,7 +150,6 @@ def get_all_posts():
 
     for r in records:
         post = dict(zip(header, r))
-        # post.update({"comments": get_post_comments(r[0])}) #don't need it here
         data.append(post)
 
     return json.dumps(data, default=str)
@@ -192,7 +175,6 @@ def get_post_tags(id):
     for r in records:
         data.append(dict(zip(header, r)))
 
-    #return json.dumps(data, default=str)
     return data
 
 def add_post_tag(id):
@@ -244,7 +226,6 @@ def add_post_comment(id):
     data = request.get_json()
     print(data)
     current_time = datetime.now()
-    #author_id = 1 #set to current user
     query = "insert into comments (post_id, author_id, content, published_at) values (%s ,%s, %s, %s)"
     values = (data["post_id"], data["author_id"], data["content"], current_time)
     cursor = db.cursor()

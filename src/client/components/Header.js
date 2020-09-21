@@ -32,15 +32,15 @@ const styles = theme => ({
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.15),
-        // '&:hover': {
-        //     backgroundColor: fade(theme.palette.common.white, 0.25),
-        // },
-        // marginLeft: 0,
-        // width: '100%',
-        // [theme.breakpoints.up('sm')]: {
-        //     marginLeft: theme.spacing(1),
-        //     width: 'auto',
-        // },
+        '&:hover': {
+            backgroundColor: fade(theme.palette.common.white, 0.25),
+        },
+        marginLeft: 0,
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(1),
+            width: 'auto',
+        },
     },
     searchIcon: {
         padding: theme.spacing(0, 2),
@@ -60,12 +60,12 @@ const styles = theme => ({
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create('width'),
         width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            width: '12ch',
-            '&:focus': {
-                width: '20ch',
-            },
-        },
+        // [theme.breakpoints.up('sm')]: {
+        //     width: '12ch',
+        //     '&:focus': {
+        //         width: '20ch',
+        //     },
+        //},
     },
 });
 
@@ -89,6 +89,7 @@ class Header extends React.Component {
         });
 
     };
+
 
     render() {
         const {classes} = this.props;
@@ -143,8 +144,13 @@ class Header extends React.Component {
                             <Link to="#" style={{textDecoration: 'none', color: 'black'}}>Hi, {this.props.user}</Link>
                         </Button>
 
-                        <Button variant="outlined" size="small">
-                            <Link to="/logout" style={{textDecoration: 'none', color: 'black'}}>Sign out</Link>
+                        <Button variant="outlined" size="small" onClick={this.props.onLogout}>
+                            <Link to="/logout"
+                                  style={{textDecoration: 'none', color: 'black'}}
+
+                            >
+                                Sign out
+                            </Link>
                         </Button>
                     </Toolbar>
                     :

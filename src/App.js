@@ -21,9 +21,9 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            firstName: '',
-            userId: '',
-            isLoggedIn: null,
+            firstName: cookies.get('first_name'),
+            userId: cookies.get('user_id'),
+            isLoggedIn: cookies.get('session_id') !== undefined,
             session_id: cookies.get('session_id'),
             sections: [
                 {title: 'Technology', url: '#'},
@@ -68,31 +68,6 @@ class App extends React.Component {
                 console.log("Error during logout")
             });
     };
-
-    // componentDidMount() {
-    //     let session_id = cookies.get('session_id');
-    //     const url = `/sessions/${session_id}`;
-    //     console.log(url);
-    //     axios.get(url)
-    //         .then((res) => {
-    //             console.log(res);
-    //             if (res.data === 'Not logged in') {
-    //                 console.log("Not logged in");
-    //                 this.setState({isLoggedIn: false});
-    //             } else {
-    //                 this.setState({
-    //                     firstName: res.data.first_name,
-    //                     userId: res.data.user_id,
-    //                     isLoggedIn: true
-    //                 });
-    //             }
-    //             ;
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.data)
-    //             console.log("Error during verifying session");
-    //         });
-    // }
 
 
     render() {

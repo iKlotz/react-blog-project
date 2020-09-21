@@ -32,15 +32,15 @@ const styles = theme => ({
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
-        },
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(1),
-            width: 'auto',
-        },
+        // '&:hover': {
+        //     backgroundColor: fade(theme.palette.common.white, 0.25),
+        // },
+        // marginLeft: 0,
+        // width: '100%',
+        // [theme.breakpoints.up('sm')]: {
+        //     marginLeft: theme.spacing(1),
+        //     width: 'auto',
+        // },
     },
     searchIcon: {
         padding: theme.spacing(0, 2),
@@ -105,7 +105,7 @@ class Header extends React.Component {
                                 state: {
                                     userId: this.props.userId
                                 }}
-                            }> Crete post </Link>
+                            }> Create post </Link>
                         </Button>
                         <Typography
                             component="h2"
@@ -184,18 +184,18 @@ class Header extends React.Component {
 
                         <Button variant="outlined" size="small">
                             <Link
+                                style={{textDecoration: 'none', color: 'black'}}
                                 to={{
                                     pathname: `/search/${this.state.inputText}`,
                                     state: {
                                         query: this.state.inputText
                                     }}}
-
                             >Search</Link>
                         </Button>
 
-                        <Button variant="outlined" size="small">
-                            <Link to="/register" style={{textDecoration: 'none', color: 'black'}}>Sign up</Link>
-                        </Button>
+                        {/*<Button variant="outlined" size="small">*/}
+                        {/*    <Link to="/register" style={{textDecoration: 'none', color: 'black'}}>Sign up</Link>*/}
+                        {/*</Button>*/}
 
                         <Button variant="outlined" size="small">
                             <Link to="/login" style={{textDecoration: 'none', color: 'black'}}>Sign in</Link>

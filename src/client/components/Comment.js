@@ -40,7 +40,7 @@ const Comment = ({comments}) => {
                             <ListItemText
                                 primary={
                                     <Typography className={classes.fonts}>
-                                        {comment.title}
+                                        {comment.first_name + ' ' + comment.last_name}
                                     </Typography>
                                 }
                                 secondary={

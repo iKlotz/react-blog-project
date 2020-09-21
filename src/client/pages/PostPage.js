@@ -10,29 +10,37 @@ import CardContent from "@material-ui/core/CardContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import TagsArray from "../components/TagsArray";
 import AddTag from "../components/AddTag";
+import Button from "@material-ui/core/Button";
+import {Link} from "react-router-dom";
 
 
-class Post extends React.Component {
+class PostPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            post: []
+            post: [],
+            isAuthor: false
         };
     }
 
     componentDidMount() {
         let id = this.props.match.params.id;
+        if (this.props.userId === this.state.post.author_id) {
+            this.setState({ isAuthor: true})
+        }
+
+
         axios.get(`/posts/${id}`).then(res => {
             this.setState({
                 post: res.data,
+                isAuthor: this.props.userId === res.data.author_id
             });
         })
-
     }
 
     render() {
 
-        const {first_name, last_name, title, content, comments, image} = this.state.post;
+        const {first_name, last_name, title, content, comments, image, tags, id, author_id} = this.state.post;
 
         return (
             <Grid container justify="center" style={{minHeight: '80vh'}}>
@@ -51,8 +59,24 @@ class Post extends React.Component {
                     <Typography>
                         <p>{content}</p>
                     </Typography>
-                    <TagsArray/>
-                    <AddComment id={this.props.match.params.id}/>
+                    {this.state.isAuthor
+                        ?
+                        <Button variant="contained" color='secondary'>
+                            <Link
+                                style={{textDecoration: 'none', color: 'black'}}
+                                to={{
+                                    pathname: `/edit-post/${this.state.post.id}`,
+                                    state: {
+                                        postId: this.state.post.id
+                                    }}
+                                }> Edit your post </Link>
+                        </Button>
+                        :
+                        null
+                    }
+
+                       <TagsArray tags={tags} postId={id}/>
+                    <AddComment id={this.props.match.params.id} firstName={first_name} lastName={last_name} authorId={author_id}/>
                     {comments ? <Comment comments={comments}/> : <CircularProgress/>}
                 </div>
             </Grid>
@@ -60,6 +84,6 @@ class Post extends React.Component {
     }
 }
 
-export default Post;
+export default PostPage;
 
 

@@ -7,9 +7,10 @@ import Typography from "@material-ui/core/Typography";
 import {Divider} from "@material-ui/core";
 import AddTag from "./AddTag";
 import TagsArray from "./TagsArray";
+import Redirect from "react-router-dom/es/Redirect";
 
 
-class NewPost extends React.Component {
+class EditPost extends React.Component {
 
     constructor(props) {
         super(props);
@@ -35,36 +36,56 @@ class NewPost extends React.Component {
             content: content,
             authorId: userId,
             image: image,
+            isUpdated: false
         };
 
+        let id = this.props.match.params.id;
 
-        axios.post('/posts', data).then(res => {
+        axios.put(`/edit-post/${id}`, data).then(res => {
             //const post = res.data;
-            this.setState({
-                title: '',
-                content: '',
-                authorId: '',
-                image: ''
-            });
+            this.setState({ isUpdated: true });
+            console.log(res.data);
         })
     };
 
+    componentDidMount() {
+        let id = this.props.match.params.id;
+        axios.get(`/posts/${id}`).then(res => {
+            const post = res.data;
+            console.log(post);
+            this.setState({
+                title: post.title,
+                content: post.content,
+                authorId: post.authorId,
+                image: post.image,
+                tags: post.tags
+            });
+        })
+    }
+
+
 
     render() {
+        let id = this.props.match.params.id;
+
+        if(this.state.isUpdated){
+            return (<Redirect to={`/post/${id}`}/>)
+        }
+
         const {title, image, content, authorId} = this.state;
         return (
             <Grid container justify="center" style={{minHeight: '80vh'}}>
                 <div style={{display: 'flex', flexDirection: 'column', maxWidth: 600, minWidth: 500, marginTop: 100}}>
                     <Grid container justify='center'>
                         <Typography component="h1" variant="h3">
-                            Create your post
+                            Edit your post
                         </Typography>
                     </Grid>
                     <form>
                         <Grid item xs={12} sm={6} md={6}>
                             <TextField
-                                id="standard-multiline-static"
-                                label="Title"
+                                id="standard-read-only-input"
+                                //label="Title"
                                 multiline
                                 rowsMax={4}
                                 placeholder="Give it a good name..."
@@ -78,7 +99,7 @@ class NewPost extends React.Component {
                         <Grid item>
                             <TextField
                                 id="standard-multiline-static"
-                                label="Content"
+                                //label="Content"
                                 multiline
                                 rows={8}
                                 placeholder="Write your thoughts here..."
@@ -92,7 +113,7 @@ class NewPost extends React.Component {
                         <Grid>
                             <TextField
                                 id="filled-helperText"
-                                label="Link"
+                                //label="Link"
                                 placeholder="https://image-you-want-to-add.com"
                                 helperText="Add your images URL here"
                                 variant="outlined"
@@ -102,9 +123,9 @@ class NewPost extends React.Component {
                                 style={{width: 600, marginTop: '10px'}}
                             />
                         </Grid>
-                        <AddTag/>
+                        <AddTag id={id}/>
                         <Divider/>
-                        {this.state.tags && <TagsArray/>}
+                        {this.state.tags ? ((this.state.tags.length > 0) && <TagsArray tags={this.state.tags} postId={id}/>) : null}
 
                         <Grid container justify="flex-end" style={{marginTop: '10px'}}>
                             <Button
@@ -112,7 +133,7 @@ class NewPost extends React.Component {
                                 type="submit"
                                 onClick={this.onSubmit}
                             >
-                                Save post
+                                Edit post
                             </Button>
                         </Grid>
                     </form>
@@ -122,4 +143,4 @@ class NewPost extends React.Component {
     }
 }
 
-export default NewPost;
+export default EditPost;

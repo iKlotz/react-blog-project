@@ -1,13 +1,9 @@
 import React from 'react';
 import PostCard from './PostCard';
 import axios from "axios";
-import Grid from "@material-ui/core/Grid";
-import MainFeaturedPost from "./MainFeaturedPost";
-import Posts from "./Posts";
-import Container from "@material-ui/core/Container";
-import Redirect from "react-router-dom/es/Redirect";
 
-class Search extends React.Component {
+
+class SearchByTag extends React.Component {
 
     constructor(props) {
         super(props);
@@ -20,7 +16,7 @@ class Search extends React.Component {
 
     componentDidMount() {
         let query = this.props.match.params.query;
-        axios.get(`/search/${query}`).then(res => {
+        axios.get(`/search/tag/${query}`).then(res => {
             this.setState({
                 isLoading: false,
                 posts: res.data,
@@ -32,7 +28,7 @@ class Search extends React.Component {
     componentDidUpdate() {
         if (this.props.match.params.query !== this.state.query) {
             let query = this.props.match.params.query;
-            axios.get(`/search/${query}`).then(res => {
+            axios.get(`/search/tag/${query}`).then(res => {
                 this.setState({
                     isLoading: false,
                     posts: res.data,
@@ -48,16 +44,16 @@ class Search extends React.Component {
         return posts.map(function (post) {
             return(
                 <PostCard
-                title={post.title}
-                content={post.content + '...'}
-                image={post.image}
-                published={post.published}
-                author={post.first_name + ' ' + post.last_name}
-                id={post.id}
-            />
+                    title={post.title}
+                    content={post.content + '...'}
+                    image={post.image}
+                    published={post.published}
+                    author={post.first_name + ' ' + post.last_name}
+                    id={post.id}
+                />
             );
         })
     }
 }
 
-export default Search;
+export default SearchByTag;

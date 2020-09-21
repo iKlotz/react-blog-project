@@ -4,7 +4,7 @@ import React from 'react';
 import MainSection from "../components/MainSection";
 import Sidebar from "../components/Sidebar";
 
-function Home() {
+function HomePage() {
     return (
         <div>
             <MainSection/>
@@ -13,4 +13,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default HomePage;

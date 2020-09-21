@@ -46,43 +46,44 @@ class AddTag extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: undefined,
-            content: undefined,
-            author: undefined,
+            postId: undefined,
+            label: undefined,
         };
     }
 
-    onTitleChange = (e) => {
-        this.setState({
-            title: e.target.value,
-        })
-    };
+    // onTitleChange = (e) => {
+    //     this.setState({
+    //         title: e.target.value,
+    //     })
+    // };
 
     onContentChange = (e) => {
         this.setState({
-            content: e.target.value,
+            label: e.target.value,
         })
     };
 
     onSubmit = (e) => {
         e.preventDefault();
-        const data = {
-            title: this.state.title,
-            content: this.state.content,
-            post_id: this.props.id,
-            author_id: 1 //change to current user
-        };
 
         let id = this.props.id;
-        console.log(id);
 
-        axios.post(`/posts/${id}/comments`, data).then(res => {
-            const comment = res.data;
+        const data = {
+            postId: id,
+            label: this.state.label //change to current user
+        };
+
+        axios.post(`/posts/${id}/tags`, data).then(res => {
+            const tag = res.data;
             this.setState({
-                title: '',
-                content: ''
+                postId: '',
+                label: ''
             });
+
+            console.log(tag);
         });
+
+
 
         //should be a better way
         window.location.reload(false);
@@ -94,14 +95,19 @@ class AddTag extends React.Component {
 
         return (
             <div className={classes.root}>
-                <form className={classes.root} noValidate autoComplete="off" onSubmit={this.onSubmit}>
+                <form className={classes.root} noValidate autoComplete="off" >
                     <Grid ixs={12} sm={6}>
                         <TextField className={classes.text}
                                    id="standard-basic"
-                                   label="Add tag"
+                                   label="Add new tag"
                                    onChange={this.onContentChange}
-                                   value={this.state.content}
+                                   value={this.state.label}
                         />
+                    </Grid>
+                    <Grid container justify="flex-end" style={{marginTop: '10px', marginBottom: '10px'}}>
+                    <Button  onClick={this.onSubmit} >
+                        Submit tag
+                    </Button>
                     </Grid>
                 </form>
             </div>

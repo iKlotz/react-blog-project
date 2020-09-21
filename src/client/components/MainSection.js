@@ -73,11 +73,7 @@ function MainSection() {
         <section className="post-section">
             {/*<label className="title">This is my blog</label>*/}
             <Container maxWidth="false" className={classes.blogsContainer}>
-                {/*<Typography variant="h4" className={classes.blogTitle}>*/}
-                {/*    Articles*/}
-                {/*</Typography>*/}
                 <MainFeaturedPost post={mainFeaturedPost} />
-
 
                 <Grid container spacing={3}>
                     <Posts/>

@@ -1,9 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import {Redirect} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import {Grid, TextField, Button, InputAdornment} from "@material-ui/core";
 import {LockRounded, Email} from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
+import GoogleLogin from "react-google-login";
 
 class Login extends React.Component {
     constructor(props) {
@@ -47,6 +48,19 @@ class Login extends React.Component {
             });
     };
 
+    onGoogleResponse = (data) => {
+        const url = `/users/${data.profileObj.email}`;
+        console.log(url);
+        axios.get(`/users/${data.profileObj.email}`)
+            .then(res => {
+                this.props.setLogin(res.data)
+            })
+            .catch((err) => {
+                console.log(err);
+                console.log("Error during google login");
+            });
+    };
+
 
     render() {
         if (this.props.isLoggedIn) {
@@ -58,11 +72,6 @@ class Login extends React.Component {
         return (
             <div>
                 <Grid container justify="center" style={{minHeight: '80vh'}}>
-                    {/*<Grid item xs={12} sm={6}>*/}
-                    {/*    <img*/}
-                    {/*        src="https://render.fineartamerica.com/images/rendered/default/poster/8/10/break/images-medium-5/a-brooklyn-perspective-az-jackson.jpg"*/}
-                    {/*        style={{width: '100%', height: '100%', objectFit: 'cover'}} alt="cover"/>*/}
-                    {/*</Grid>*/}
                     <Grid
                         container
                         item xs={12}
@@ -79,49 +88,62 @@ class Login extends React.Component {
                                     <h1 width={200}>Account Login</h1>
                                 </Typography>
                             </Grid>
-                                <TextField
-                                    label="email"
-                                    margin='normal'
-                                    name="email"
-                                    value={email}
-                                    onChange={this.onChange}
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start"><Email/></InputAdornment>
-                                    }}
+                            <TextField
+                                label="email"
+                                margin='normal'
+                                name="email"
+                                value={email}
+                                onChange={this.onChange}
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start"><Email/></InputAdornment>
+                                }}
+                            />
+                            <TextField
+                                type="password"
+                                label="password"
+                                margin='normal'
+                                name="password"
+                                value={password}
+                                onChange={this.onChange}
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start"><LockRounded/></InputAdornment>
+                                }}
+                            />
+                            <Button
+                                style={{marginBottom: '5px'}}
+                                color="primary"
+                                variant="contained"
+                                type="submit"
+                                onClick={e => this.onSubmit(e)}>
+                                Log in
+                            </Button>
+                            {/*<Grid container justify="center">*/}
+                                <GoogleLogin
+                                    clientId="354081205543-jabqkm7h9ugpus91nkblj9nhto02pc4m.apps.googleusercontent.com"
+                                    buttonText="Login with Google"
+                                    onSuccess={this.onGoogleResponse}
+                                    onFailure={this.onGoogleResponse}
+                                    cookiePolicy={'single_host_origin'}
                                 />
-                                <TextField
-                                    type="password"
-                                    label="password"
-                                    margin='normal'
-                                    name="password"
-                                    value={password}
-                                    onChange={this.onChange}
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start"><LockRounded/></InputAdornment>
-                                    }}
-                                />
-                                {/*<div style={{height: 20}}/>*/}
-                                <Button
-                                    color="primary"
-                                    variant="contained"
-                                    type="submit"
-                                    onClick={e => this.onSubmit(e)}>
-                                    Log in
-                                </Button>
-                            <Button>Not a member yet?</Button>
+                            {/*</Grid>*/}
+                            <Button>
+                                <Link to="/register">
+                                    Not a member yet?
+                                </Link>
+                            </Button>
                         </div>
-                        <Grid container justify="center" spacing={2}>
-                            <Grid item>
-                                <Button color="primary">
-                                    Go to hell
-                                </Button>
-                            </Grid>
-                            <Grid item>
-                                <Button variant="outlined">
-                                    Forgot password?
-                                </Button>
-                            </Grid>
-                        </Grid>
+                        {/*<Grid container justify="center" spacing={2}>*/}
+                        {/*    <Grid item>*/}
+                        {/*        <Button variant="outlined">*/}
+                        {/*            Forgot password?*/}
+                        {/*        </Button>*/}
+                        {/*    </Grid>*/}
+                        {/*    <Grid item>*/}
+                        {/*        <Button color="primary" disabled>*/}
+                        {/*            Go to hell*/}
+                        {/*        </Button>*/}
+                        {/*    </Grid>*/}
+                        {/*</Grid>*/}
                     </Grid>
                 </Grid>
             </div>

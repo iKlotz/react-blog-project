@@ -25,7 +25,6 @@ def index():
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    print(data)
     query = "select id, password, first_name from users where email = %s"
     values = (data['email'], )
     cursor = db.cursor()
@@ -48,10 +47,33 @@ def login():
     values = (user_id, session_id, session_id)
     cursor.execute(query, values)
     db.commit()
-    res_data = {"first_name": first_name, "user_id": user_id}
+    res_data = {"first_name": first_name, "user_id": user_id, "session_id": session_id}
     res = make_response(res_data)
     res.set_cookie("session_id", session_id)
     return res
+
+@app.route('/sessions/<session_id>', methods=['GET'])
+def get_user(session_id):
+    data = request.get_json()
+    query = "select first_name, user_id from sessions join users on user_id = id where session_id = (%s)"
+    values = (session_id, )
+    cursor = db.cursor()
+    try:
+        cursor.execute(query, values)
+        record = cursor.fetchone()
+        first_name = record[0]
+        user_id = record[1]
+        res_data = {"first_name": first_name, "user_id": user_id}
+        print(res_data)
+        header = ['first_name', 'user_id']
+        user = dict(zip(header, record))
+
+        return json.dumps(user, default=str)
+    except:
+        return "Not logged in"
+    finally:
+        cursor.close()
+        db.commit()
 
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -95,6 +117,20 @@ def register():
     #res.set_cookie("session_id", session_id) make it work
     return res
 
+@app.route('/users/<key>', methods=['GET'])
+def get_user_id(key):
+    query = "select id, first_name from users where email = (%s)"
+    value =(key,)
+    cursor = db.cursor()
+    cursor.execute(query,value)
+    records = cursor.fetchall()
+    header = ['user_id', 'first_name']
+    cursor.close()
+    user = dict(zip(header,records[0]))
+    print(user)
+    return json.dumps(user, default=str)
+
+
 @app.route('/posts', methods=['GET', 'POST'])
 def manage_posts():
     if request.method == 'GET':
@@ -114,12 +150,12 @@ def add_post():
     db.commit()
     cursor.close()
 
-    return "Post successfully added"
+    return "PostPage successfully added"
 
 
 def get_all_posts():
     #query = "select id, author_id, title, content, image, published from posts;"
-    query = "select posts.id, author_id, title, content, image, published, first_name, last_name from posts join users on posts.author_id = users.id;"
+    query = "select posts.id, author_id, title, left(content, 250), image, published, first_name, last_name from posts join users on posts.author_id = users.id;"
     #comments_query = "select id, title, content, author, published from post_comment;"
     cursor = db.cursor()
     cursor.execute(query)
@@ -135,8 +171,51 @@ def get_all_posts():
 
     return json.dumps(data, default=str)
 
+@app.route('/posts/<id>/tags', methods=['GET', 'POST'])
+def manage_tags(id):
+    if request.method == 'GET':
+        return get_post_tags(id)
+    else:
+        return add_post_tag(id)
 
-############### is it pretty enough?
+
+def get_post_tags(id):
+    query = "select id, label from tags where post_id = (%s)"
+    value = (id,)
+    cursor = db.cursor()
+    cursor.execute(query, value)
+    records = cursor.fetchall()
+    cursor.close()
+    header = ['id', 'label']
+    data = []
+
+    for r in records:
+        data.append(dict(zip(header, r)))
+
+    #return json.dumps(data, default=str)
+    return data
+
+def add_post_tag(id):
+    data = request.get_json()
+    query = "insert into tags (post_id, label) values (%s ,%s)"
+    values = (id, data["label"])
+    cursor = db.cursor()
+    cursor.execute(query, values)
+    db.commit()
+    cursor.close()
+
+    return "Tag successfully added"
+
+@app.route('/posts/<id>/tags/<label>', methods=['POST'])
+def delete_post_tag(id, label):
+    query = "delete from tags where post_id = (%s) AND label=(%s)"
+    value = (id, label)
+    cursor = db.cursor()
+    cursor.execute(query, value)
+    db.commit()
+    cursor.close()
+
+    return "tag successfully deleted"
 
 @app.route('/posts/<id>/comments', methods=['GET', 'POST'])
 def manage_comments(id):
@@ -146,13 +225,13 @@ def manage_comments(id):
         return add_post_comment(id)
 
 def get_post_comments(id):
-    query = "select title, published_at, content, author_id from comments where post_id = (%s)"
+    query = "select published_at, content, author_id, first_name, last_name from comments join users on comments.author_id = users.id where post_id = (%s)"
     value = (id,)
     cursor = db.cursor()
     cursor.execute(query, value)
     records = cursor.fetchall()
     cursor.close()
-    header = ['title', 'published_at', 'content', 'author_id']
+    header = ['published_at', 'content', 'author_id', 'first_name', 'last_name']
     data = []
 
     for r in records:
@@ -166,8 +245,8 @@ def add_post_comment(id):
     print(data)
     current_time = datetime.now()
     #author_id = 1 #set to current user
-    query = "insert into post_comment (post_id, author_id, title, content, published_at) values (%s ,%s, %s, %s, %s)"
-    values = (data["post_id"], data["author_id"], data["title"], data["content"], current_time)
+    query = "insert into comments (post_id, author_id, content, published_at) values (%s ,%s, %s, %s)"
+    values = (data["post_id"], data["author_id"], data["content"], current_time)
     cursor = db.cursor()
     cursor.execute(query, values)
     db.commit()
@@ -189,7 +268,22 @@ def get_post_by_id(id):
     cursor.close()
     post = dict(zip(header,records[0]))
     post.update({"comments": get_post_comments(records[0][0])})
+    post.update({"tags": get_post_tags(records[0][0])})
+
     return json.dumps(post, indent=4, sort_keys=True, default=str)
+
+@app.route('/edit-post/<id>', methods=['PUT'])
+
+def edit_post(id):
+    data = request.get_json()
+    query = "update posts set title=(%s), content=(%s), image=(%s) where id=(%s)"
+    values = (data["title"], data["content"], data["image"], id)
+    cursor = db.cursor()
+    cursor.execute(query,values)
+    db.commit()
+    cursor.close()
+
+    return "Post was successfully updated"
 
 
 @app.route('/search/<key>')
@@ -211,6 +305,26 @@ def filter_records(key):
 
     return json.dumps(data, default=str)
 
+@app.route('/search/tag/<key>')
+
+def filter_records_by_tag(key):
+    query_key = "%" + key + "%"
+    query = "select posts.id, first_name, last_name, title, content, image, published, label from posts join tags on posts.id = tags.post_id join users on posts.author_id = users.id where label like %s"
+    value = (query_key,)
+    cursor = db.cursor()
+    cursor.execute(query, value)
+    records = cursor.fetchall()
+    print(records)
+    cursor.close()
+    header = []
+    header = ['id', 'first_name', 'last_name', 'title', 'content', 'image', 'published']
+    data = []
+
+    for r in records:
+        post = dict(zip(header, r))
+        data.append(post)
+
+    return json.dumps(data, default=str)
 
 @app.route('/api/alive', methods=['GET'])
 def api_alive():

@@ -16,6 +16,9 @@ class Posts extends React.Component {
             this.setState({
                 posts: res.data,
             });
+        }).catch((err) => {
+                console.log(err)
+                console.log("Error during fetching posts");
         })
     }
 
@@ -24,10 +27,10 @@ class Posts extends React.Component {
         return this.state.posts.map(function (post) {
             return <PostCard
                 title={post.title}
-                content={post.content}
+                content={post.content + '...'}
                 image={post.image}
                 published={post.published}
-                author={post.first_name}
+                author={post.first_name + ' ' + post.last_name}
                 id={post.id}
             />
         })

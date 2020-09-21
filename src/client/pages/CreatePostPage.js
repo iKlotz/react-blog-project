@@ -1,7 +1,7 @@
 import React from "react";
 import AddPost from "../components/AddPost";
 
-function CreatePost (props) {
+function CreatePostPage (props) {
     return (
         <div>
             <AddPost {...props}/>
@@ -9,4 +9,4 @@ function CreatePost (props) {
     )
 }
 
-export default CreatePost;
+export default CreatePostPage;

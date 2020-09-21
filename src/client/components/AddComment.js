@@ -47,17 +47,9 @@ class AddComment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: undefined,
             content: undefined,
-            author: undefined,
         };
     }
-
-    onTitleChange = (e) => {
-        this.setState({
-            title: e.target.value,
-        })
-    };
 
     onContentChange = (e) => {
         this.setState({
@@ -68,10 +60,10 @@ class AddComment extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         const data = {
-            title: this.state.title,
+            //title: this.state.title,
             content: this.state.content,
             post_id: this.props.id,
-            author_id: 1 //change to current user
+            author_id: this.props.authorId
         };
 
         let id = this.props.id;
@@ -108,7 +100,8 @@ class AddComment extends React.Component {
                         <Button className={classes.button}
                                 type="submit"
                                 variant="text"
-                                onClick={this.onSubmit}>Add comment
+                                onClick={this.onSubmit}
+                        >Add comment
                         </Button>
                     </Grid>
                 </form>

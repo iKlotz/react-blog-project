@@ -74,7 +74,6 @@ function PostCard(props) {
                     <Link to={`/post/${props.id}`} style={{ textDecoration: 'none' }}>
                     <CardMedia
                         className={classes.media}
-                        // image="https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
                         image={props.image}
                         title={props.title}
                     />
@@ -112,20 +111,3 @@ function PostCard(props) {
 }
 
 export default PostCard;
-
-{/*<div>*/}
-{/*    <div className="post">*/}
-{/*        <label className="post-title">*/}
-{/*            {props.title}*/}
-{/*        </label>*/}
-{/*        <img width="60" height="60" className="post-img" src={props.image}/>*/}
-
-{/*        <p className="post-content">*/}
-{/*            {props.content}*/}
-{/*        </p>*/}
-
-{/*        <label className="post-footer">*/}
-{/*            Published {props.published} by {props.author}*/}
-{/*        </label>*/}
-{/*    </div>*/}
-{/*</div>*/}

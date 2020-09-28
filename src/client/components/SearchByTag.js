@@ -2,7 +2,6 @@ import React from 'react';
 import PostCard from './PostCard';
 import axios from "axios";
 
-
 class SearchByTag extends React.Component {
 
     constructor(props) {

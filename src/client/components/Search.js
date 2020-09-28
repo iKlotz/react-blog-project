@@ -6,6 +6,8 @@ import MainFeaturedPost from "./MainFeaturedPost";
 import Posts from "./Posts";
 import Container from "@material-ui/core/Container";
 import Redirect from "react-router-dom/es/Redirect";
+import {fade, withStyles} from "@material-ui/core";
+
 
 
 class Search extends React.Component {
@@ -46,6 +48,7 @@ class Search extends React.Component {
 
     render() {
         const { posts } = this.state;
+
         return posts.map(function (post) {
             return(
                 <PostCard
@@ -57,6 +60,7 @@ class Search extends React.Component {
             />
             );
         })
+
     }
 }
 

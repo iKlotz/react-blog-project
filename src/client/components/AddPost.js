@@ -7,6 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import {Divider} from "@material-ui/core";
 import AddTag from "./AddTag";
 import TagsArray from "./TagsArray";
+import Alert from '@material-ui/lab/Alert';
+import {Redirect} from 'react-router-dom';
 
 
 class NewPost extends React.Component {
@@ -18,7 +20,9 @@ class NewPost extends React.Component {
             content: undefined,
             authorId: undefined,
             image: undefined,
-            tags: undefined
+            tags: undefined,
+            isSubmitted: false,
+            errorAlert: false
             //why undefined and why null?
         };
     }
@@ -34,7 +38,7 @@ class NewPost extends React.Component {
             title: title,
             content: content,
             authorId: userId,
-            image: image,
+            image: image ? image : 'https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
         };
 
 
@@ -44,14 +48,21 @@ class NewPost extends React.Component {
                 title: '',
                 content: '',
                 authorId: '',
-                image: ''
+                image: '',
+                isSubmitted: true
             });
+        }).catch(err => {
+            this.setState({errorAlert: true})
         })
     };
 
-
     render() {
-        const {title, image, content, authorId} = this.state;
+        const {title, image, content, isSubmitted, errorAlert} = this.state;
+
+        if (isSubmitted) {
+            return <Redirect to="/"/>
+        }
+
         return (
             <Grid container justify="center" style={{minHeight: '80vh'}}>
                 <div style={{display: 'flex', flexDirection: 'column', maxWidth: 600, minWidth: 500, marginTop: 100}}>
@@ -72,6 +83,7 @@ class NewPost extends React.Component {
                                 onChange={this.onChange}
                                 value={title}
                                 name="title"
+                                required="true"
                                 style={{width: 600, marginTop: '15px'}}
                             />
                         </Grid>
@@ -86,6 +98,7 @@ class NewPost extends React.Component {
                                 onChange={this.onChange}
                                 value={content}
                                 name="content"
+                                required="true"
                                 style={{width: 600, marginTop: '10px'}}
                             />
                         </Grid>
@@ -115,6 +128,7 @@ class NewPost extends React.Component {
                                 Save post
                             </Button>
                         </Grid>
+                        {errorAlert ? <Alert severity="error" style={{marginTop: '10px'}}>Something went wrong...</Alert> : null}
                     </form>
                 </div>
             </Grid>

@@ -139,7 +139,7 @@ def add_post():
 
 def get_all_posts():
     #query = "select id, author_id, title, content, image, published from posts;"
-    query = "select posts.id, author_id, title, left(content, 150), image, published, first_name, last_name from posts join users on posts.author_id = users.id;"
+    query = "select posts.id, author_id, title, left(content, 150), image, published, first_name, last_name from posts join users on posts.author_id = users.id order by id desc;"
     #comments_query = "select id, title, content, author, published from post_comment;"
     cursor = db.cursor()
     cursor.execute(query)
@@ -207,7 +207,7 @@ def manage_comments(id):
         return add_post_comment(id)
 
 def get_post_comments(id):
-    query = "select published_at, content, author_id, first_name, last_name from comments join users on comments.author_id = users.id where post_id = (%s)"
+    query = "select published_at, content, author_id, first_name, last_name from comments join users on comments.author_id = users.id where post_id = (%s) order by comments.id desc"
     value = (id,)
     cursor = db.cursor()
     cursor.execute(query, value)
@@ -271,7 +271,7 @@ def edit_post(id):
 
 def filter_records(key):
     query_key = "%" + key + "%"
-    query = "select posts.id, first_name, last_name, title, content, image, published from posts join users on posts.author_id = users.id WHERE title like %s OR content like %s OR first_name like %s OR last_name like %s"
+    query = "select posts.id, first_name, last_name, title, content, image, published from posts join users on posts.author_id = users.id WHERE title like %s OR content like %s OR first_name like %s OR last_name like %s order by id desc"
     value = (query_key, query_key, query_key, query_key)
     cursor = db.cursor()
     cursor.execute(query, value)
@@ -290,7 +290,7 @@ def filter_records(key):
 
 def filter_records_by_tag(key):
     query_key = "%" + key + "%"
-    query = "select posts.id, first_name, last_name, title, content, image, published, label from posts join tags on posts.id = tags.post_id join users on posts.author_id = users.id where label like %s"
+    query = "select posts.id, first_name, last_name, title, content, image, published, label from posts join tags on posts.id = tags.post_id join users on posts.author_id = users.id where label like %s order by id desc"
     value = (query_key,)
     cursor = db.cursor()
     cursor.execute(query, value)

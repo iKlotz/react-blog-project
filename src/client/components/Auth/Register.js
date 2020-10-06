@@ -46,13 +46,15 @@ const styles = theme => ({
 class Register extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
-        this.setState({
+        this.state = {
             firstName: null,
             lastName: null,
             email: null,
             password: null,
-        })
+        };
+        // this.setState({
+        //
+        // })
     }
 
 

@@ -67,7 +67,6 @@ class AddComment extends React.Component {
         };
 
         let id = this.props.id;
-        console.log(id);
 
         axios.post(`/posts/${id}/comments`, data).then(res => {
             const comment = res.data;
@@ -77,7 +76,7 @@ class AddComment extends React.Component {
             });
         });
 
-        //should be a better way
+        //should be a better way, you need to reload only the comment section
         window.location.reload(false);
     };
 

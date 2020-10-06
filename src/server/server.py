@@ -49,9 +49,9 @@ def login():
     db.commit()
     res_data = {"first_name": first_name, "user_id": user_id, "session_id": session_id}
     res = make_response(res_data)
-    res.set_cookie("session_id", session_id, expires=3600)
-    res.set_cookie("user_id", str(user_id), expires=3600)
-    res.set_cookie("first_name", (first_name), expires=3600)
+    res.set_cookie("session_id", session_id)
+    res.set_cookie("user_id", str(user_id))
+    res.set_cookie("first_name", (first_name))
 
     return res
 

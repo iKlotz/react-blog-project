@@ -29,27 +29,19 @@ class TagsArray extends React.Component {
         };
     }
 
-    setChipData(tags) {
-        this.setState({
-            tags: tags,
 
-        });
-    }
-
-
-
-    handleDelete = (tagToDelete) => () => {
-        //this.setState({chips: (tags) => tags.filter((chip) => chip.key !== tagToDelete.key)});
-
-        const { label } = tagToDelete;
-        let id = this.props.postId;
-        console.log(id);
-        axios.post(`/posts/${id}/tags/${label}`).then(res => {
-            this.setState({
-                tags: res.data,
-            });
-        })
-    };
+    // handleDelete = (tagToDelete) => () => {
+    //     //this.setState({chips: (tags) => tags.filter((chip) => chip.key !== tagToDelete.key)});
+    //
+    //     const { label } = tagToDelete;
+    //     let id = this.props.postId;
+    //     console.log(id);
+    //     axios.post(`/posts/${id}/tags/${label}`).then(res => {
+    //         this.setState({
+    //             tags: res.data,
+    //         });
+    //     })
+    // };
 
     onClick = (tag) => () => {
         console.log(tag);
@@ -83,8 +75,8 @@ class TagsArray extends React.Component {
                                 color='primary'
                                 icon={icon}
                                 label={data.label}
-                                //onDelete={this.handleDelete(data)}
-                                clickable={true}
+                                onDelete={this.props.handleDelete ? this.props.handleDelete(data) : null}
+                                //clickable={true}
                                 onClick={this.onClick(data)} //try with link
                                 className={classes.chip}
                             />

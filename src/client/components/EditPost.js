@@ -30,6 +30,7 @@ class EditPost extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            postId: this.props.match.params.id,
             title: undefined,
             content: undefined,
             authorId: undefined,
@@ -98,6 +99,29 @@ class EditPost extends React.Component {
         console.log('AddTag invoked');
     };
 
+    handleDelete = (tagToDelete) => () => {
+        this.setState({chips: (tags) => tags.filter((chip) => chip.key !== tagToDelete.key)});
+
+        const { label } = tagToDelete;
+        let id = this.state.postId;
+        console.log(id);
+        axios.post(`/posts/${id}/tags/${label}`).then(res => {
+            // this.setState({
+            //     tags: res.data,
+            // });
+            this.setState({tags: this.state.tags.filter((tag) => tag.label !== tagToDelete.label)});
+        })
+        console.log('handle detele');
+    };
+
+    onClick = (tag) => () => {
+        console.log(tag);
+        this.setState({
+            currentTag: tag,
+            isClicked: true
+        })
+    };
+
     render() {
         let id = this.props.match.params.id;
 
@@ -164,7 +188,7 @@ class EditPost extends React.Component {
                         </Grid>
                         <AddTag id={id} addTag={this.addTag}/>
                         <Divider/>
-                        {this.state.tags ? ((this.state.tags.length > 0) && <TagsArray tags={this.state.tags} postId={id}/>) : null}
+                        {this.state.tags ? ((this.state.tags.length > 0) && <TagsArray tags={this.state.tags} postId={id} handleDelete={this.handleDelete}/>) : null}
 
                         <Grid container justify="flex-end" style={{marginTop: '10px'}}>
                             <Button

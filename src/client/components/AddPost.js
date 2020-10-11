@@ -16,7 +16,7 @@ class NewPost extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            postId: null,
+            postId: this.props.match.params.id,
             title: null,
             content: "",
             authorId: null,
@@ -65,13 +65,20 @@ class NewPost extends React.Component {
         console.log('AddTag invoked');
     };
 
-    // getTags = () => {
-    //     this.setState({
-    //       tags: this.state.tags
-    //     })
-    //
-    //     console.log('getTags');
-    // };
+    handleDelete = (tagToDelete) => () => {
+        this.setState({chips: (tags) => tags.filter((chip) => chip.key !== tagToDelete.key)});
+
+        const { label } = tagToDelete;
+        let id = this.state.postId;
+        console.log(id);
+        axios.post(`/posts/${id}/tags/${label}`).then(res => {
+            // this.setState({
+            //     tags: res.data,
+            // });
+            this.setState({tags: this.state.tags.filter((tag) => tag.label !== tagToDelete.label)});
+        })
+        console.log('handle detele');
+    };
 
 
 
@@ -165,7 +172,7 @@ class NewPost extends React.Component {
                         <AddTag id={postId} addTag={this.addTag} setTag={this.getTags}/>
                         <Divider/>
                         {/*{this.state.tags > 0 && <TagsArray tags={this.getTags} postId={postId}/>}*/}
-                        {this.state.tags ? ((this.state.tags.length > 0) && <TagsArray tags={this.state.tags} postId={postId}/>) : null}
+                        {this.state.tags ? ((this.state.tags.length > 0) && <TagsArray tags={this.state.tags} postId={postId} handleDelete={this.handleDelete}/>) : null}
 
                         <Grid container justify="flex-end" style={{marginTop: '10px'}}>
                             <Button

@@ -16,34 +16,81 @@ class NewPost extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: undefined,
-            content: undefined,
-            authorId: undefined,
-            image: undefined,
-            tags: undefined,
+            postId: null,
+            title: null,
+            content: "",
+            authorId: null,
+            image: null,
+            tags: [],
             isSubmitted: false,
             errorAlert: false
-            //why undefined and why null?
+
         };
     }
 
-    onChange = e => this.setState({...this.state, [e.target.name]: e.target.value});
-
-
-    onSubmit = (e) => {
-        e.preventDefault();
+    componentDidMount() {
         const {userId} = this.props.location.state;
         const {title, content, image} = this.state;
         const data = {
             title: title,
             content: content,
             authorId: userId,
-            image: image ? image : 'https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+            image: 'https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+            status: 'draft'
         };
 
 
         axios.post('/posts', data).then(res => {
             //const post = res.data;
+            console.log(res.data);
+            this.setState({
+                postId: res.data.post_id,
+                title: '',
+                content: '',
+                authorId: userId,
+                image: '',
+            });
+        }).catch(err => {
+            this.setState({errorAlert: true})
+        })
+    }
+
+    onChange = e => this.setState({...this.state, [e.target.name]: e.target.value});
+
+    addTag = (tag) => {
+        this.setState({
+            tags: [...this.state.tags, tag]
+        });
+
+        console.log('AddTag invoked');
+    };
+
+    // getTags = () => {
+    //     this.setState({
+    //       tags: this.state.tags
+    //     })
+    //
+    //     console.log('getTags');
+    // };
+
+
+
+    onSubmit = (e) => {
+        e.preventDefault();
+        const {userId} = this.props.location.state;
+        const {title, content, image, postId} = this.state;
+        const data = {
+            title: title,
+            content: content,
+            authorId: userId,
+            image: image ? image : 'https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+            postId: postId
+        };
+
+
+        axios.put('/posts', data).then(res => {
+            //const post = res.data;
+            console.log(res.data);
             this.setState({
                 title: '',
                 content: '',
@@ -57,7 +104,7 @@ class NewPost extends React.Component {
     };
 
     render() {
-        const {title, image, content, isSubmitted, errorAlert} = this.state;
+        const {title, image, content, isSubmitted, errorAlert, postId} = this.state;
 
         if (isSubmitted) {
             return <Redirect to="/"/>
@@ -115,9 +162,10 @@ class NewPost extends React.Component {
                                 style={{width: 600, marginTop: '10px'}}
                             />
                         </Grid>
-                        <AddTag/>
+                        <AddTag id={postId} addTag={this.addTag} setTag={this.getTags}/>
                         <Divider/>
-                        {this.state.tags && <TagsArray/>}
+                        {/*{this.state.tags > 0 && <TagsArray tags={this.getTags} postId={postId}/>}*/}
+                        {this.state.tags ? ((this.state.tags.length > 0) && <TagsArray tags={this.state.tags} postId={postId}/>) : null}
 
                         <Grid container justify="flex-end" style={{marginTop: '10px'}}>
                             <Button

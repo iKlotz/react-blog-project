@@ -8,6 +8,21 @@ import {Divider} from "@material-ui/core";
 import AddTag from "./AddTag";
 import TagsArray from "./TagsArray";
 import Redirect from "react-router-dom/es/Redirect";
+import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@material-ui/icons/Save';
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = theme => ({
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    button: {
+        margin: theme.spacing(1),
+    },
+});
 
 
 class EditPost extends React.Component {
@@ -36,7 +51,8 @@ class EditPost extends React.Component {
             content: content,
             authorId: userId,
             image: image,
-            isUpdated: false
+            isUpdated: false,
+            isDeleted: false
         };
 
         let id = this.props.match.params.id;
@@ -46,6 +62,17 @@ class EditPost extends React.Component {
             this.setState({ isUpdated: true });
             console.log(res.data);
         })
+    };
+
+    onDelete = e =>{
+        e.preventDefault();
+        let id = this.props.match.params.id;
+
+        axios.delete(`/posts/${id}`).then(res => {
+            this.setState({isDeleted: true})
+        }).catch(err => {
+            console.log("Error during deletion of the post")
+        });
     };
 
     componentDidMount() {
@@ -63,10 +90,22 @@ class EditPost extends React.Component {
         })
     }
 
+    addTag = (tag) => {
+        this.setState({
+            tags: [...this.state.tags, tag]
+        });
 
+        console.log('AddTag invoked');
+    };
 
     render() {
         let id = this.props.match.params.id;
+
+        const {classes} = this.props;
+
+        if(this.state.isDeleted){
+            return (<Redirect to={`/`}/>)
+        }
 
         if(this.state.isUpdated){
             return (<Redirect to={`/post/${id}`}/>)
@@ -123,17 +162,30 @@ class EditPost extends React.Component {
                                 style={{width: 600, marginTop: '10px'}}
                             />
                         </Grid>
-                        <AddTag id={id}/>
+                        <AddTag id={id} addTag={this.addTag}/>
                         <Divider/>
                         {this.state.tags ? ((this.state.tags.length > 0) && <TagsArray tags={this.state.tags} postId={id}/>) : null}
 
                         <Grid container justify="flex-end" style={{marginTop: '10px'}}>
                             <Button
-                                variant="outlined"
+                                variant="contained"
+                                color="secondary"
+                                className={classes.button}
+                                onClick={this.onDelete}
+                                startIcon={<DeleteIcon />}
+                            >
+                                Delete
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                size="small"
                                 type="submit"
+                                className={classes.button}
+                                startIcon={<SaveIcon />}
                                 onClick={this.onSubmit}
                             >
-                                Edit post
+                                Save post
                             </Button>
                         </Grid>
                     </form>
@@ -143,4 +195,4 @@ class EditPost extends React.Component {
     }
 }
 
-export default EditPost;
+export default withStyles(styles, { withTheme: true })(EditPost);

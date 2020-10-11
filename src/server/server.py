@@ -115,34 +115,47 @@ def get_user_id(key):
     return json.dumps(user, default=str)
 
 
-@app.route('/posts', methods=['GET', 'POST'])
+@app.route('/posts', methods=['GET', 'POST', 'PUT'])
 def manage_posts():
     if request.method == 'GET':
         return get_all_posts()
-    else:
+    elif request.method == 'POST':
         return add_post()
+    else:
+        return submit_post()
 
-
-def add_post():
+def submit_post():
     data = request.get_json()
-    print(data)
-    current_time = datetime.now()
-    query = "insert into posts (author_id, title, content, image, published) values (%s ,%s, %s, %s, %s)"
-    values = (data["authorId"], data["title"], data["content"], data["image"], current_time)
+    query = "update posts set title=(%s), content=(%s), image=(%s), status=(%s) where id=(%s)"
+    values = (data["title"], data["content"], data["image"], "published", data["postId"])
     cursor = db.cursor()
-    cursor.execute(query, values)
+    cursor.execute(query,values)
     db.commit()
     cursor.close()
 
-    return "PostPage successfully added"
+    return "Post was successfully submitted"
+
+def add_post():
+    data = request.get_json()
+    current_time = datetime.now()
+    query = "insert into posts (author_id, title, content, image, published, status) values (%s ,%s, %s, %s, %s, %s)"
+    values = (data["authorId"], data["title"], data["content"], data["image"], current_time, data["status"])
+    cursor = db.cursor()
+    cursor.execute(query, values)
+    post_id = cursor.lastrowid
+    db.commit()
+    cursor.close()
+    #return 'New user id: ' + str(new_user_id)
+    res_data = {"post_id": post_id}
+    res = make_response(res_data)
+    return res
 
 
 def get_all_posts():
-    #query = "select id, author_id, title, content, image, published from posts;"
-    query = "select posts.id, author_id, title, left(content, 150), image, published, first_name, last_name from posts join users on posts.author_id = users.id order by id desc;"
-    #comments_query = "select id, title, content, author, published from post_comment;"
+    query = "select posts.id, author_id, title, left(content, 150), image, published, first_name, last_name from posts join users on posts.author_id = users.id where status =(%s) order by id desc;"
+    values=("published",)
     cursor = db.cursor()
-    cursor.execute(query)
+    cursor.execute(query, values)
     records = cursor.fetchall()
     cursor.close()
     header = ['id', 'author_id', 'title', 'content', 'image', 'published', 'first_name', 'last_name']
@@ -235,7 +248,13 @@ def add_post_comment(id):
 
     return "Comment successfully added"
 
-@app.route('/posts/<id>')
+@app.route('/posts/<id>', methods=['GET', 'DELETE'])
+
+def manage_posts_by_id(id):
+    if request.method == 'GET':
+        return get_post_by_id(id)
+    else:
+        return delete_post_by_id(id)
 
 def get_post_by_id(id):
     query = "select posts.id, author_id, title, content, image, published, first_name, last_name from posts join users on posts.author_id = users.id where posts.id = (%s)"
@@ -252,6 +271,16 @@ def get_post_by_id(id):
     post.update({"tags": get_post_tags(records[0][0])})
 
     return json.dumps(post, indent=4, sort_keys=True, default=str)
+
+def delete_post_by_id(id):
+    query = "delete from posts where id=(%s)"
+    value =(id,)
+    cursor = db.cursor()
+    cursor.execute(query, value)
+    db.commit()
+    cursor.close()
+
+    return "Post was successfully deleted"
 
 @app.route('/edit-post/<id>', methods=['PUT'])
 

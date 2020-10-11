@@ -75,6 +75,8 @@ class AddTag extends React.Component {
 
         axios.post(`/posts/${id}/tags`, data).then(res => {
             const tag = res.data;
+            this.props.addTag(data);
+
             this.setState({
                 postId: '',
                 label: ''
@@ -86,7 +88,7 @@ class AddTag extends React.Component {
 
 
         //should be a better way
-        window.location.reload(false);
+        //window.location.reload(false);
     };
 
     render() {

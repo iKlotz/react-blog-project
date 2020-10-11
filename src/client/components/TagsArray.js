@@ -23,7 +23,7 @@ class TagsArray extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tags: [],
+            //tags: this.props.tags,
             currentTag: null,
             isClicked: false
         };
@@ -36,18 +36,20 @@ class TagsArray extends React.Component {
         });
     }
 
-    // handleDelete = (tagToDelete) => () => {
-    //     //this.setState({chips: (chips) => chips.filter((chip) => chip.key !== chipToDelete.key)});
-    //
-    //     const { label } = tagToDelete;
-    //     let id = this.props.postId;
-    //     console.log(id);
-    //     axios.post(`/posts/${id}/tags/${label}`).then(res => {
-    //         this.setState({
-    //             tags: res.data,
-    //         });
-    //     })
-    // };
+
+
+    handleDelete = (tagToDelete) => () => {
+        //this.setState({chips: (tags) => tags.filter((chip) => chip.key !== tagToDelete.key)});
+
+        const { label } = tagToDelete;
+        let id = this.props.postId;
+        console.log(id);
+        axios.post(`/posts/${id}/tags/${label}`).then(res => {
+            this.setState({
+                tags: res.data,
+            });
+        })
+    };
 
     onClick = (tag) => () => {
         console.log(tag);

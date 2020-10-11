@@ -101,7 +101,7 @@ class Header extends React.Component {
                         <Button size="small" disabled>
                             <Link to="#" style={{textDecoration: 'none', color: 'black'}}>Hi, {this.props.user}</Link>
                         </Button>
-                        <Button size="small" >
+                        <Button size="small" variant="outlined" >
                             <Link
                                 style={{textDecoration: 'none', color: 'black'}}
                                 to={{
@@ -109,7 +109,7 @@ class Header extends React.Component {
                                 state: {
                                     userId: this.props.userId
                                 }}
-                            }> Create post </Link>
+                            }> write a new post </Link>
                         </Button>
                         <Typography
                             component="h2"

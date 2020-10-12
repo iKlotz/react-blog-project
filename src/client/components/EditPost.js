@@ -11,6 +11,7 @@ import Redirect from "react-router-dom/es/Redirect";
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import { withStyles } from "@material-ui/core/styles";
+import Sections from "./Sections";
 
 const styles = theme => ({
     paper: {
@@ -36,7 +37,6 @@ class EditPost extends React.Component {
             authorId: undefined,
             image: undefined,
             tags: undefined
-            //why undefined and why null?
         };
     }
 
@@ -138,7 +138,7 @@ class EditPost extends React.Component {
         const {title, image, content, authorId} = this.state;
         return (
             <Grid container justify="center" style={{minHeight: '80vh'}}>
-                <div style={{display: 'flex', flexDirection: 'column', maxWidth: 600, minWidth: 500, marginTop: 100}}>
+                <div style={{display: 'flex', flexDirection: 'column', maxWidth: 600, minWidth: 500, marginTop: 50}}>
                     <Grid container justify='center'>
                         <Typography component="h1" variant="h3">
                             Edit your post
@@ -189,6 +189,8 @@ class EditPost extends React.Component {
                         <AddTag id={id} addTag={this.addTag}/>
                         <Divider/>
                         {this.state.tags ? ((this.state.tags.length > 0) && <TagsArray tags={this.state.tags} postId={id} handleDelete={this.handleDelete}/>) : null}
+                        <Divider/>
+                        <Sections/>
 
                         <Grid container justify="flex-end" style={{marginTop: '10px'}}>
                             <Button

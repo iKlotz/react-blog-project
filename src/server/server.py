@@ -152,7 +152,7 @@ def add_post():
 
 
 def get_all_posts():
-    query = "select posts.id, author_id, title, left(content, 150), image, published, first_name, last_name from posts join users on posts.author_id = users.id where status =(%s) order by id desc;"
+    query = "select posts.id, author_id, left(title, 40), left(content, 50), image, published, first_name, last_name from posts join users on posts.author_id = users.id where status = (%s) order by id desc;"
     values=("published",)
     cursor = db.cursor()
     cursor.execute(query, values)
@@ -257,7 +257,7 @@ def manage_posts_by_id(id):
         return delete_post_by_id(id)
 
 def get_post_by_id(id):
-    query = "select posts.id, author_id, title, content, image, published, first_name, last_name from posts join users on posts.author_id = users.id where posts.id = (%s)"
+    query = "select posts.id, author_id, left(title, 40), content, image, published, first_name, last_name from posts join users on posts.author_id = users.id where posts.id = (%s)"
     value =(id,)
     #print(id)
     cursor = db.cursor()
@@ -300,8 +300,8 @@ def edit_post(id):
 
 def filter_records(key):
     query_key = "%" + key + "%"
-    query = "select posts.id, first_name, last_name, title, content, image, published from posts join users on posts.author_id = users.id WHERE title like %s OR content like %s OR first_name like %s OR last_name like %s order by id desc"
-    value = (query_key, query_key, query_key, query_key)
+    query = "select posts.id, first_name, last_name, left(title, 30), left(content, 50), image, published from posts join users on posts.author_id = users.id WHERE title like %s OR content like %s OR first_name like %s OR last_name like %s and status =(%s) order by id desc"
+    value = (query_key, query_key, query_key, query_key, "published")
     cursor = db.cursor()
     cursor.execute(query, value)
     records = cursor.fetchall()
@@ -319,8 +319,8 @@ def filter_records(key):
 
 def filter_records_by_tag(key):
     query_key = "%" + key + "%"
-    query = "select posts.id, first_name, last_name, title, content, image, published, label from posts join tags on posts.id = tags.post_id join users on posts.author_id = users.id where label like %s order by id desc"
-    value = (query_key,)
+    query = "select posts.id, first_name, last_name, left(title, 40), left(content, 50), image, published, label from posts join tags on posts.id = tags.post_id join users on posts.author_id = users.id where label like %s and status = (%s) order by id desc"
+    value = (query_key, "published")
     cursor = db.cursor()
     cursor.execute(query, value)
     records = cursor.fetchall()

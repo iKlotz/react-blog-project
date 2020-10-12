@@ -54,6 +54,7 @@ class Search extends React.Component {
                 <PostCard
                 title={post.title}
                 image={post.image}
+                content={post.content}
                 published={post.published}
                 author={post.first_name + ' ' + post.last_name}
                 id={post.id}

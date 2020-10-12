@@ -12,9 +12,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 function SearchByTagPage(props) {
     const classes = useStyles();
-
 
     return (
         <Container maxWidth="false" className={classes.blogsContainer}>

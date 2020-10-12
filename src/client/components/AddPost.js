@@ -9,6 +9,7 @@ import AddTag from "./AddTag";
 import TagsArray from "./TagsArray";
 import Alert from '@material-ui/lab/Alert';
 import {Redirect} from 'react-router-dom';
+import Sections from "./Sections";
 
 
 class NewPost extends React.Component {
@@ -72,11 +73,8 @@ class NewPost extends React.Component {
         let id = this.state.postId;
         console.log(id);
         axios.post(`/posts/${id}/tags/${label}`).then(res => {
-            // this.setState({
-            //     tags: res.data,
-            // });
             this.setState({tags: this.state.tags.filter((tag) => tag.label !== tagToDelete.label)});
-        })
+        });
         console.log('handle detele');
     };
 
@@ -119,7 +117,7 @@ class NewPost extends React.Component {
 
         return (
             <Grid container justify="center" style={{minHeight: '80vh'}}>
-                <div style={{display: 'flex', flexDirection: 'column', maxWidth: 600, minWidth: 500, marginTop: 100}}>
+                <div style={{display: 'flex', flexDirection: 'column', maxWidth: 600, minWidth: 500, marginTop: 50}}>
                     <Grid container justify='center'>
                         <Typography component="h1" variant="h3">
                             Create your post
@@ -173,6 +171,8 @@ class NewPost extends React.Component {
                         <Divider/>
                         {/*{this.state.tags > 0 && <TagsArray tags={this.getTags} postId={postId}/>}*/}
                         {this.state.tags ? ((this.state.tags.length > 0) && <TagsArray tags={this.state.tags} postId={postId} handleDelete={this.handleDelete}/>) : null}
+                        <Divider/>
+                        <Sections/>
 
                         <Grid container justify="flex-end" style={{marginTop: '10px'}}>
                             <Button

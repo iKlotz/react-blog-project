@@ -52,9 +52,6 @@ class Register extends React.Component {
             email: null,
             password: null,
         };
-        // this.setState({
-        //
-        // })
     }
 
 
@@ -94,7 +91,6 @@ class Register extends React.Component {
     };
 
     render() {
-
         if (this.props.isLoggedIn) {
             return (<Redirect to="/"/>)
         }

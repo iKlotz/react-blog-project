@@ -26,7 +26,7 @@ class Posts extends React.Component {
     render() {
         return this.state.posts.map(function (post) {
             return <PostCard
-                title={post.title}
+                title={post.title + '...'}
                 content={post.content + '...'}
                 image={post.image}
                 published={post.published}

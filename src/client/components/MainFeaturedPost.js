@@ -56,7 +56,7 @@ export default function MainFeaturedPost(props) {
                         <Link
                             variant="subtitle1"
                             to={{
-                                pathname: `/post/4`,
+                                pathname: `/post/81`,
                                 state: {
                                     postId: 4
                                 }}}

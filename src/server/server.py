@@ -257,7 +257,7 @@ def manage_posts_by_id(id):
         return delete_post_by_id(id)
 
 def get_post_by_id(id):
-    query = "select posts.id, author_id, left(title, 40), content, image, published, first_name, last_name from posts join users on posts.author_id = users.id where posts.id = (%s)"
+    query = "select posts.id, author_id, title, content, image, published, first_name, last_name from posts join users on posts.author_id = users.id where posts.id = (%s)"
     value =(id,)
     #print(id)
     cursor = db.cursor()

@@ -7,11 +7,12 @@ import bcrypt
 import uuid
 
 db = mysql.connect(
+    #aws
     #host = "my-rds.ccig5nob4omq.us-east-1.rds.amazonaws.com",
-    host = "localhost",
     #user = "admin",
+    host = "localhost",
     user = "root",
-    passwd = "BKNY1987",
+    passwd = "IK123456",
     database = "blog")
 
 
@@ -71,6 +72,7 @@ def logout():
     res.set_cookie("session_id", '', expires=0)
     res.set_cookie("user_id", '', expires=0)
     res.set_cookie("first_name", '', expires=0)
+
     return res
 
 @app.route('/register', methods=['POST'])
@@ -95,10 +97,9 @@ def register():
     user_id = cursor.lastrowid
     first_name = data['first_name']
     cursor.close()
-    #return 'New user id: ' + str(new_user_id)
     res_data = {"first_name": first_name, "user_id": user_id}
     res = make_response(res_data)
-    #res.set_cookie("session_id", session_id) make it work
+
     return res
 
 @app.route('/users/<key>', methods=['GET'])
@@ -112,6 +113,7 @@ def get_user_id(key):
     cursor.close()
     user = dict(zip(header,records[0]))
     print(user)
+
     return json.dumps(user, default=str)
 
 
@@ -145,9 +147,9 @@ def add_post():
     post_id = cursor.lastrowid
     db.commit()
     cursor.close()
-    #return 'New user id: ' + str(new_user_id)
     res_data = {"post_id": post_id}
     res = make_response(res_data)
+
     return res
 
 
@@ -259,7 +261,6 @@ def manage_posts_by_id(id):
 def get_post_by_id(id):
     query = "select posts.id, author_id, title, content, image, published, first_name, last_name from posts join users on posts.author_id = users.id where posts.id = (%s)"
     value =(id,)
-    #print(id)
     cursor = db.cursor()
     cursor.execute(query,value)
     records = cursor.fetchall()

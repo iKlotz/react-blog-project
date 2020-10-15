@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 const styles = theme => ({
     root: {
         width: "100%",
-        backgroundColor: theme.palette.background.paper
+        // backgroundColor: theme.palette.background.paper
     },
     paper: {
         marginTop: theme.spacing(8),
@@ -51,12 +51,6 @@ class AddTag extends React.Component {
         };
     }
 
-    // onTitleChange = (e) => {
-    //     this.setState({
-    //         title: e.target.value,
-    //     })
-    // };
-
     onContentChange = (e) => {
         this.setState({
             label: e.target.value,
@@ -84,11 +78,6 @@ class AddTag extends React.Component {
 
             console.log(tag);
         });
-
-
-
-        //should be a better way
-        //window.location.reload(false);
     };
 
     render() {
@@ -97,7 +86,7 @@ class AddTag extends React.Component {
 
         return (
             <div className={classes.root}>
-                <form className={classes.root} noValidate autoComplete="off" >
+                {/*<form className={classes.root} noValidate autoComplete="off" >*/}
                     <Grid ixs={12} sm={6}>
                         <TextField className={classes.text}
                                    id="standard-basic"
@@ -111,7 +100,7 @@ class AddTag extends React.Component {
                         Submit tag
                     </Button>
                     </Grid>
-                </form>
+                {/*</form>*/}
             </div>
         )
     }

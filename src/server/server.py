@@ -301,7 +301,7 @@ def edit_post(id):
 
 def filter_records(key):
     query_key = "%" + key + "%"
-    query = "select posts.id, first_name, last_name, left(title, 30), left(content, 50), image, published from posts join users on posts.author_id = users.id WHERE title like %s OR content like %s OR first_name like %s OR last_name like %s and status =(%s) order by id desc"
+    query = "select posts.id, first_name, last_name, left(title, 40), left(content, 50), image, published from posts join users on posts.author_id = users.id WHERE title like %s OR content like %s OR first_name like %s OR last_name like %s and status =(%s) order by id desc"
     value = (query_key, query_key, query_key, query_key, "published")
     cursor = db.cursor()
     cursor.execute(query, value)

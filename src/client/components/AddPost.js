@@ -10,7 +10,9 @@ import TagsArray from "./TagsArray";
 import Alert from '@material-ui/lab/Alert';
 import {Redirect} from 'react-router-dom';
 import Sections from "./Sections";
+import Cookies from "universal-cookie";
 
+const cookies = new Cookies();
 
 class NewPost extends React.Component {
 
@@ -20,7 +22,7 @@ class NewPost extends React.Component {
             postId: this.props.match.params.id,
             title: null,
             content: "",
-            authorId: null,
+            authorId: cookies.get('user_id'),
             image: null,
             tags: [],
             isSubmitted: false,
@@ -123,7 +125,7 @@ class NewPost extends React.Component {
                             Create your post
                         </Typography>
                     </Grid>
-                    <form>
+                    {/*<form>*/}
                         <Grid item xs={12} sm={6} md={6}>
                             <TextField
                                 id="standard-multiline-static"
@@ -184,7 +186,7 @@ class NewPost extends React.Component {
                             </Button>
                         </Grid>
                         {errorAlert ? <Alert severity="error" style={{marginTop: '10px'}}>Something went wrong...</Alert> : null}
-                    </form>
+                    {/*</form>*/}
                 </div>
             </Grid>
         )

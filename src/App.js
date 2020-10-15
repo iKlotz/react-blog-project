@@ -26,16 +26,16 @@ class App extends React.Component {
             isLoggedIn: cookies.get('session_id') !== undefined,
             session_id: cookies.get('session_id'),
             sections: [
-                {title: 'Technology', url: '#'},
-                {title: 'Design', url: '#'},
-                {title: 'Culture', url: '#'},
-                {title: 'Business', url: '#'},
-                {title: 'Politics', url: '#'},
-                {title: 'Opinion', url: '#'},
-                {title: 'Science', url: '#'},
-                {title: 'Health', url: '#'},
-                {title: 'Style', url: '#'},
-                {title: 'Travel', url: '#'},
+                {title: 'Technology', url: '/sections/technology'},
+                {title: 'Design', url: '/sections/design'},
+                {title: 'Culture', url: '/sections/culture'},
+                {title: 'Business', url: '/sections/business'},
+                {title: 'Politics', url: '/sections/politics'},
+                {title: 'Opinion', url: '/sections/opinion'},
+                {title: 'Science', url: '/sections/science'},
+                {title: 'Health', url: '/sections/health'},
+                {title: 'Style', url: '/sections/style'},
+                {title: 'Travel', url: '/sections/travel'},
             ]
         }
     }
@@ -85,6 +85,8 @@ class App extends React.Component {
                         <Route path='/post/:id'
                                component={(props) => <PostPage {...props} user={firstName} userId={userId}/>}/>
                         <Route path="/about" component={About}/>
+                        {/*todo*/}
+                        <Route path='/section/:query' component={(props) => <SearchByTagPage {...props} />}/>
                         <Route path='/search/tag/:query' component={(props) => <SearchByTagPage {...props} />}/>
                         <Route path='/search/:query' component={(props) => <SearchPage {...props} />}/>
                         <Route path="/contact" component={ContactMe}/>

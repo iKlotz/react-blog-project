@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
 function SearchPage(props) {
     const classes = useStyles();
 
-
     return (
         <Container maxWidth="false" className={classes.blogsContainer}>
             <Grid container spacing={3}>

@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 
-class Search extends React.Component {
+class SearchBySection extends React.Component {
 
     constructor(props) {
         super(props);
@@ -17,7 +17,7 @@ class Search extends React.Component {
 
     componentDidMount() {
         let query = this.props.match.params.query;
-        axios.get(`/search/${query}`).then(res => {
+        axios.get(`/search/section/${query}`).then(res => {
             this.setState({
                 isLoading: false,
                 posts: res.data,
@@ -29,7 +29,7 @@ class Search extends React.Component {
     componentDidUpdate() {
         if (this.props.match.params.query !== this.state.query) {
             let query = this.props.match.params.query;
-            axios.get(`/search/${query}`).then(res => {
+            axios.get(`/search/section/${query}`).then(res => {
                 this.setState({
                     isLoading: false,
                     posts: res.data,
@@ -46,17 +46,17 @@ class Search extends React.Component {
         return posts.map(function (post) {
             return(
                 <PostCard
-                title={post.title + "..."}
-                image={post.image}
-                content={post.content}
-                published={post.published}
-                author={post.first_name + ' ' + post.last_name}
-                id={post.id}
-            />
+                    title={post.title + "..."}
+                    image={post.image}
+                    content={post.content}
+                    published={post.published}
+                    author={post.first_name + ' ' + post.last_name}
+                    id={post.id}
+                />
             );
         })
 
     }
 }
 
-export default Search;
+export default SearchBySection;

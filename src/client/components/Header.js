@@ -119,7 +119,7 @@ class Header extends React.Component {
                             noWrap
                             className={classes.toolbarTitle}
                         >
-                            <Link to="/home" style={{textDecoration: 'none', color: 'black', marginLeft: '17%'}}>The Blog Inc.</Link>
+                            <Link to="/home" style={{textDecoration: 'none', color: 'black', marginLeft: '18.5%'}}>The Blog Inc.</Link>
                         </Typography>
                         <div className={classes.search}>
                             <div className={classes.searchIcon}>
@@ -221,7 +221,7 @@ class Header extends React.Component {
                             noWrap
                             key={section.title}
                             variant="body2"
-                            href={section.url}
+                            to={section.url}
                             className={classes.toolbarLink}
                             style={{textDecoration: 'none', color: 'black'}}
                         >

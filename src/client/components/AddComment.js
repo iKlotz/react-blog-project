@@ -63,7 +63,9 @@ class AddComment extends React.Component {
             //title: this.state.title,
             content: this.state.content,
             post_id: this.props.id,
-            author_id: this.props.authorId
+            author_id: this.props.authorId,
+            first_name: this.props.firstName,
+            last_name: this.props.lastName
         };
 
         let id = this.props.id;
@@ -74,10 +76,13 @@ class AddComment extends React.Component {
                 title: '',
                 content: ''
             });
+
+            this.props.addComment(comment);
         });
 
+
         //should be a better way, you need to reload only the comment section
-        window.location.reload(false);
+        //window.location.reload(false);
     };
 
     render() {

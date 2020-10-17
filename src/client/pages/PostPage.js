@@ -19,6 +19,7 @@ class PostPage extends React.Component {
         super(props);
         this.state = {
             post: [],
+            comments: [],
             isAuthor: false
         };
     }
@@ -26,30 +27,41 @@ class PostPage extends React.Component {
     componentDidMount() {
         let id = this.props.match.params.id;
         if (this.props.userId === this.state.post.author_id) {
-            this.setState({ isAuthor: true})
+            this.setState({isAuthor: true})
         }
 
 
         axios.get(`/posts/${id}`).then(res => {
             this.setState({
                 post: res.data,
+                comments: res.data.comments,
                 isAuthor: this.props.userId === res.data.author_id
             });
         })
     }
 
+    addComment = (comment) => {
+        this.setState({
+            comments: [comment, ...this.state.comments]
+        });
+
+        console.log('Add comment is invoked');
+    };
+
     render() {
 
-        const {first_name, last_name, title, content, comments, image, tags, id, author_id} = this.state.post;
+        const {first_name, last_name, title, content, image, tags, id, author_id} = this.state.post;
+        const {comments} = this.state.comments;
 
         return (
             <Grid container justify="center" style={{minHeight: '80vh'}}>
                 <div style={{display: 'flex', flexDirection: 'column', maxWidth: 600, minWidth: 300}}>
-                    <Typography >
+                    <Typography>
                         <h1 style={{textAlign: 'center'}}>{title}</h1>
                     </Typography>
                     <Grid item xs={12} sm={6} md={4}>
-                        <img src={image} style={{display: 'flex', flexDirection: 'column', width: 600, maxHeight: 400}}/>
+                        <img src={image}
+                             style={{display: 'flex', flexDirection: 'column', width: 600, maxHeight: 400}}/>
                     </Grid>
                     <Grid container justify="flex-end">
                         <Typography variant="h6" fontFamily="Charter">
@@ -68,16 +80,23 @@ class PostPage extends React.Component {
                                     pathname: `/edit-post/${this.state.post.id}`,
                                     state: {
                                         postId: this.state.post.id
-                                    }}
+                                    }
+                                }
                                 }> Edit your post </Link>
                         </Button>
                         :
                         null
                     }
 
-                       <TagsArray tags={tags} postId={id}/>
-                    <AddComment id={this.props.match.params.id} firstName={first_name} lastName={last_name} authorId={author_id}/>
-                    {comments ? <Comment comments={comments}/> : <CircularProgress/>}
+                    <TagsArray tags={tags} postId={id}/>
+                    <AddComment
+                        id={this.props.match.params.id}
+                        firstName={first_name}
+                        lastName={last_name}
+                        authorId={author_id}
+                        addComment={this.addComment}
+                    />
+                    {this.state.comments ? <Comment comments={this.state.comments}/> : null}
                 </div>
             </Grid>
         )

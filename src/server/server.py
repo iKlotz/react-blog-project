@@ -247,8 +247,10 @@ def add_post_comment(id):
     cursor.execute(query, values)
     db.commit()
     cursor.close()
+    res_data = {"post_id": data["post_id"], "author_id": data["author_id"], "content": data["content"], "first_name": data["first_name"], "last_name": data["last_name"], "published_at": current_time}
+    res = make_response(res_data)
 
-    return "Comment successfully added"
+    return res
 
 @app.route('/posts/<id>', methods=['GET', 'DELETE'])
 

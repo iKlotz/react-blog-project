@@ -12,6 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import { withStyles } from "@material-ui/core/styles";
 import Sections from "./Sections";
+import Cookies from "universal-cookie";
 
 const styles = theme => ({
     paper: {
@@ -25,6 +26,7 @@ const styles = theme => ({
     },
 });
 
+const cookies = new Cookies();
 
 class EditPost extends React.Component {
 
@@ -34,7 +36,7 @@ class EditPost extends React.Component {
             postId: this.props.match.params.id,
             title: undefined,
             content: undefined,
-            authorId: undefined,
+            authorId: cookies.get('user_id'),
             image: undefined,
             tags: undefined
         };
@@ -45,7 +47,7 @@ class EditPost extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        const {userId} = this.props.location.state;
+        const {userId} = cookies.get('user_id');
         const {title, content, image} = this.state;
         const data = {
             title: title,
@@ -101,25 +103,12 @@ class EditPost extends React.Component {
 
     handleDelete = (tagToDelete) => () => {
         this.setState({chips: (tags) => tags.filter((chip) => chip.key !== tagToDelete.key)});
-
         const { label } = tagToDelete;
         let id = this.state.postId;
         console.log(id);
         axios.post(`/posts/${id}/tags/${label}`).then(res => {
-            // this.setState({
-            //     tags: res.data,
-            // });
             this.setState({tags: this.state.tags.filter((tag) => tag.label !== tagToDelete.label)});
-        })
-        console.log('handle detele');
-    };
-
-    onClick = (tag) => () => {
-        console.log(tag);
-        this.setState({
-            currentTag: tag,
-            isClicked: true
-        })
+        });
     };
 
     render() {
@@ -176,7 +165,6 @@ class EditPost extends React.Component {
                         <Grid>
                             <TextField
                                 id="filled-helperText"
-                                //label="Link"
                                 placeholder="https://image-you-want-to-add.com"
                                 helperText="Add your images URL here"
                                 variant="outlined"

@@ -63,6 +63,7 @@ class App extends React.Component {
                     userId: '',
                     isLoggedIn: false
                 });
+
             })
             .catch((err) => {
                 console.log("Error during logout")

@@ -156,12 +156,7 @@ class Header extends React.Component {
                         </Button>
 
                         <Button variant="outlined" size="small" onClick={this.props.onLogout}>
-                            <Link to="/logout"
-                                  style={{textDecoration: 'none', color: 'black'}}
-
-                            >
-                                Sign out
-                            </Link>
+                            Sign out
                         </Button>
                     </Toolbar>
                     :

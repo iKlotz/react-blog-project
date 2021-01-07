@@ -11,7 +11,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import TagsArray from "../components/TagsArray";
 import AddTag from "../components/AddTag";
 import Button from "@material-ui/core/Button";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 
 class PostPage extends React.Component {
@@ -26,15 +26,12 @@ class PostPage extends React.Component {
 
     componentDidMount() {
         let id = this.props.match.params.id;
-        if (this.props.userId === this.state.post.author_id) {
-            this.setState({isAuthor: true})
-        }
 
         axios.get(`/posts/${id}`).then(res => {
             this.setState({
                 post: res.data,
                 comments: res.data.comments,
-                isAuthor: this.props.userId === res.data.author_id
+                isAuthor: this.props.userId == res.data.author_id
             });
         })
     }
@@ -49,7 +46,6 @@ class PostPage extends React.Component {
 
     render() {
         const {first_name, last_name, title, content, image, tags, id, author_id} = this.state.post;
-        const {comments} = this.state.comments;
 
         return (
             <Grid container justify="center" style={{minHeight: '80vh'}}>

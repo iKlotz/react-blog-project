@@ -1,14 +1,6 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {
-    List,
-    ListItem,
-    Divider,
-    ListItemText,
-    ListItemAvatar,
-    Avatar,
-    Typography
-} from "@material-ui/core";
+import {Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@material-ui/core";
 
 import Faker from "faker";
 

@@ -30,7 +30,6 @@ class PostPage extends React.Component {
             this.setState({isAuthor: true})
         }
 
-
         axios.get(`/posts/${id}`).then(res => {
             this.setState({
                 post: res.data,
@@ -49,7 +48,6 @@ class PostPage extends React.Component {
     };
 
     render() {
-
         const {first_name, last_name, title, content, image, tags, id, author_id} = this.state.post;
         const {comments} = this.state.comments;
 

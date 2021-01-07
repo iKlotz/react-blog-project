@@ -60,7 +60,6 @@ class Login extends React.Component {
         });
     }
 
-
     onChange = e => this.setState({...this.state, [e.target.name]: e.target.value});
 
     onSubmit = e => {
@@ -92,9 +91,9 @@ class Login extends React.Component {
     };
 
     onGoogleResponse = (data) => {
-        const url = `/users/${data.profileObj.email}`;
-        console.log(url);
-        axios.get(`/users/${data.profileObj.email}`)
+        const url = `/google-login/${data.profileObj.email}`;
+        console.log(data.profileObj);
+        axios.get(url)
             .then(res => {
                 this.props.setLogin(res.data)
             })

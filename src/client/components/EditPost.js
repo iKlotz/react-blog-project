@@ -176,7 +176,7 @@ class EditPost extends React.Component {
                         </Grid>
                         <AddTag id={id} addTag={this.addTag}/>
                         <Divider/>
-                        {this.state.tags ? ((this.state.tags.length > 0) && <TagsArray tags={this.state.tags} postId={id} handleDelete={this.handleDelete}/>) : null}
+                            {this.state.tags ? ((this.state.tags.length > 0) && <TagsArray tags={this.state.tags} postId={id} handleDelete={this.handleDelete}/>) : null}
                         <Divider/>
                         <Sections/>
 

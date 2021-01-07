@@ -43,7 +43,7 @@ class App extends React.Component {
     setLogin = (data) => {
         this.setState({
             firstName: data.first_name,
-            userId: data.user_id, //need to get one
+            userId: data.user_id,
             session_id: cookies.get('session_id'),
             isLoggedIn: true
         })
@@ -85,7 +85,6 @@ class App extends React.Component {
                         <Route path='/post/:id'
                                component={(props) => <PostPage {...props} user={firstName} userId={userId}/>}/>
                         <Route path="/about" component={About}/>
-                        {/*todo*/}
                         <Route path='/section/:query' component={(props) => <SearchByTagPage {...props} />}/>
                         <Route path='/search/tag/:query' component={(props) => <SearchByTagPage {...props} />}/>
                         <Route path='/search/:query' component={(props) => <SearchPage {...props} />}/>

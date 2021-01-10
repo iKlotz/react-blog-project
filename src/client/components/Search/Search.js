@@ -1,8 +1,6 @@
 import React from 'react';
-import PostCard from './PostCard';
+import PostCard from '../Posts/PostCard';
 import axios from "axios";
-
-
 
 class Search extends React.Component {
 

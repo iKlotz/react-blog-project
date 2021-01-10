@@ -63,7 +63,6 @@ class TagsArray extends React.Component {
         return (
             <Paper component="ul" className={classes.root}>
                 {this.props.tags && this.props.tags.map((data) => {
-                    // console.log(data);
                     let icon;
                     if (data.label === 'React') {
                         icon = <TagFacesIcon/>;
@@ -77,7 +76,7 @@ class TagsArray extends React.Component {
                                 label={data.label}
                                 onDelete={this.props.handleDelete ? this.props.handleDelete(data) : null}
                                 //clickable={true}
-                                onClick={this.onClick(data)} //try with link
+                                onClick={this.onClick(data)}
                                 className={classes.chip}
                             />
                         </li>

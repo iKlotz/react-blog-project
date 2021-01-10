@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from "./client/components/Header"
+import Header from "./client/components/Main/Header"
 import {BrowserRouter as Router, Redirect, Route, Switch, useParams} from "react-router-dom";
 import HomePage from "./client/pages/HomePage";
 import About from "./client/pages/About";
@@ -14,6 +14,8 @@ import axios from "axios";
 import EditPostPage from "./client/pages/EditPostPage";
 import SearchByTagPage from "./client/pages/SearchByTagPage";
 import Cookies from 'universal-cookie';
+import LoginPage from "./client/pages/LoginPage";
+import RegisterPage from "./client/pages/RegisterPage";
 
 const cookies = new Cookies();
 
@@ -79,10 +81,10 @@ class App extends React.Component {
                     <Header user={firstName} isLoggedIn={isLoggedIn} userId={userId} onLogout={this.onLogout}
                             sections={sections}/>
                     <Switch>
-                        <Route path='/register' component={() => <Register isLoggedIn={this.state.isLoggedIn}
+                        <Route path='/register' component={(props) => <RegisterPage {...props} isLoggedIn={this.state.isLoggedIn}
                                                                            setLogin={this.setLogin}/>}/>
                         <Route path='/login'
-                               component={() => <Login isLoggedIn={this.state.isLoggedIn} setLogin={this.setLogin}/>}/>
+                               component={(props) => <LoginPage {...props} isLoggedIn={this.state.isLoggedIn} setLogin={this.setLogin}/>}/>
                         <Route path='/post/:id'
                                component={(props) => <PostPage {...props} user={firstName} userId={userId}/>}/>
                         <Route path="/about" component={About}/>

@@ -1,10 +1,10 @@
 import React from 'react';
-import Posts from './Posts'
+import Posts from '../Posts/Posts'
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import MainFeaturedPost from "./MainFeaturedPost";
+import MainFeaturedPost from "../Posts/MainFeaturedPost";
 
 const useStyles = makeStyles((theme) => ({
     appBar: {

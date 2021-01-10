@@ -1,15 +1,15 @@
 import React from "react";
-import AddComment from "../components/AddComment";
-import CommentCard from "../components/CommentCard";
+import AddComment from "../components/Comments/AddComment";
+import CommentCard from "../components/Comments/CommentCard";
 import axios from "axios";
-import PostCard from "../components/PostCard";
+import PostCard from "../components/Posts/PostCard";
 import {Divider, Grid} from "@material-ui/core";
-import Comment from "../components/Comment";
+import Comment from "../components/Comments/Comment";
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import TagsArray from "../components/TagsArray";
-import AddTag from "../components/AddTag";
+import TagsArray from "../components/Tags/TagsArray";
+import AddTag from "../components/Tags/AddTag";
 import Button from "@material-ui/core/Button";
 import {Link, Redirect} from "react-router-dom";
 

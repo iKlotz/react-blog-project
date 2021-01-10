@@ -1,5 +1,5 @@
 import React from "react";
-import EditPost from "../components/EditPost";
+import EditPost from "../components/Posts/EditPost";
 
 function EditPostPage (props) {
     return (

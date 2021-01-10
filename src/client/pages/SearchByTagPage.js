@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchByTag from "../components/SearchByTag";
+import SearchByTag from "../components/Search/SearchByTag";
 import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";

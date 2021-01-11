@@ -16,6 +16,7 @@ import SearchByTagPage from "./client/pages/SearchByTagPage";
 import Cookies from 'universal-cookie';
 import LoginPage from "./client/pages/LoginPage";
 import RegisterPage from "./client/pages/RegisterPage";
+import SearchBySectionPage from "./client/pages/SearchBySectionPage";
 
 const cookies = new Cookies();
 
@@ -28,16 +29,16 @@ class App extends React.Component {
             isLoggedIn: cookies.get('session_id') !== undefined,
             session_id: cookies.get('session_id'),
             sections: [
-                {title: 'Technology', url: '/sections/technology'},
-                {title: 'Design', url: '/sections/design'},
-                {title: 'Culture', url: '/sections/culture'},
-                {title: 'Business', url: '/sections/business'},
-                {title: 'Politics', url: '/sections/politics'},
-                {title: 'Opinion', url: '/sections/opinion'},
-                {title: 'Science', url: '/sections/science'},
-                {title: 'Health', url: '/sections/health'},
-                {title: 'Style', url: '/sections/style'},
-                {title: 'Travel', url: '/sections/travel'},
+                {title: 'Technology', url: '/search/section/technology'},
+                {title: 'Design', url: '/search/section/design'},
+                {title: 'Culture', url: '/search/section/culture'},
+                {title: 'Business', url: '/search/section/business'},
+                {title: 'Politics', url: '/search/section/politics'},
+                {title: 'Opinion', url: '/search/section/opinion'},
+                {title: 'Science', url: '/search/section/science'},
+                {title: 'Health', url: '/search/section/health'},
+                {title: 'Style', url: '/search/section/style'},
+                {title: 'Travel', url: '/search/section/travel'},
             ]
         }
     }
@@ -88,7 +89,7 @@ class App extends React.Component {
                         <Route path='/post/:id'
                                component={(props) => <PostPage {...props} user={firstName} userId={userId}/>}/>
                         <Route path="/about" component={About}/>
-                        <Route path='/section/:query' component={(props) => <SearchByTagPage {...props} />}/>
+                        <Route path='/search/section/:query' component={(props) => <SearchBySectionPage {...props} />}/>
                         <Route path='/search/tag/:query' component={(props) => <SearchByTagPage {...props} />}/>
                         <Route path='/search/:query' component={(props) => <SearchPage {...props} />}/>
                         <Route path="/contact" component={ContactMe}/>

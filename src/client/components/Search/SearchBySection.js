@@ -41,9 +41,9 @@ class SearchBySection extends React.Component {
 
 
     render() {
-        const { posts } = this.state;
+        const { posts, isLoading } = this.state;
 
-        return posts.map(function (post) {
+        return (!isLoading && posts.length == 0) ? <h1>No posts in this section</h1> : posts.map(function (post) {
             return(
                 <PostCard
                     title={post.title + "..."}

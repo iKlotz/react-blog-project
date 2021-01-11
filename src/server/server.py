@@ -181,7 +181,8 @@ def add_post():
 
 
 def get_all_posts():
-    query = "select posts.id, author_id, left(title, 40), left(content, 50), image, published, first_name, last_name from posts join users on posts.author_id = users.id where status = (%s) order by id desc;"
+    query = ("select posts.id, author_id, left(title, 40), left(content, 50), image, published, first_name, last_name " +
+        "from posts join users on posts.author_id = users.id where status = (%s) order by id desc;")
     values=("published",)
     cursor = db.cursor()
     cursor.execute(query, values)
@@ -254,7 +255,8 @@ def manage_comments(id):
 
 
 def get_post_comments(id):
-    query = "select published_at, content, author_id, first_name, last_name from comments join users on comments.author_id = users.id where post_id = (%s) order by comments.id desc"
+    query = ("select published_at, content, author_id, first_name, last_name from comments " +
+        "join users on comments.author_id = users.id where post_id = (%s) order by comments.id desc")
     value = (id,)
     cursor = db.cursor()
     cursor.execute(query, value)
@@ -279,7 +281,8 @@ def add_post_comment(id):
     cursor.execute(query, values)
     db.commit()
     cursor.close()
-    res_data = {"post_id": data["post_id"], "author_id": data["author_id"], "content": data["content"], "first_name": data["first_name"], "last_name": data["last_name"], "published_at": current_time}
+    res_data = {"post_id": data["post_id"], "author_id": data["author_id"], "content": data["content"],
+                "first_name": data["first_name"], "last_name": data["last_name"], "published_at": current_time}
     res = make_response(res_data)
 
     return res
@@ -337,7 +340,8 @@ def edit_post(id):
 @app.route('/search/<key>')
 def filter_records(key):
     query_key = "%" + key + "%"
-    query = "select posts.id, first_name, last_name, left(title, 40), left(content, 50), image, published from posts join users on posts.author_id = users.id WHERE title like %s OR content like %s OR first_name like %s OR last_name like %s and status =(%s) order by id desc"
+    query = ("select posts.id, first_name, last_name, left(title, 40), left(content, 50), image, published from posts " +
+        "join users on posts.author_id = users.id WHERE title like %s OR content like %s OR first_name like %s OR last_name like %s and status =(%s) order by id desc")
     value = (query_key, query_key, query_key, query_key, "published")
     cursor = db.cursor()
     cursor.execute(query, value)
@@ -356,7 +360,8 @@ def filter_records(key):
 @app.route('/search/tag/<key>')
 def filter_records_by_tag(key):
     query_key = "%" + key + "%"
-    query = "select posts.id, first_name, last_name, left(title, 40), left(content, 50), image, published, label from posts join tags on posts.id = tags.post_id join users on posts.author_id = users.id where label like %s and status = (%s) order by id desc"
+    query = ("select posts.id, first_name, last_name, left(title, 40), left(content, 50), image, published, label from posts " +
+        "join tags on posts.id = tags.post_id join users on posts.author_id = users.id where label like %s and status = (%s) order by id desc")
     value = (query_key, "published")
     cursor = db.cursor()
     cursor.execute(query, value)
@@ -370,6 +375,27 @@ def filter_records_by_tag(key):
         post = dict(zip(header, r))
         data.append(post)
 
+    return json.dumps(data, default=str)
+
+
+@app.route('/search/section/<key>')
+def filter_records_by_section(key):
+    query_key = "%" + key + "%"
+    query = ("select posts.id, first_name, last_name, left(title, 40), left(content, 50), image, published from posts " +
+        "join users on posts.author_id = users.id WHERE section like %s and status =(%s) order by id desc")
+    value = (query_key, "published")
+    cursor = db.cursor()
+    cursor.execute(query, value)
+    records = cursor.fetchall()
+    cursor.close()
+    header = ['id', 'first_name', 'last_name', 'title', 'content', 'image', 'published']
+    data = []
+
+    for r in records:
+        post = dict(zip(header, r))
+        data.append(post)
+
+    print(data)
     return json.dumps(data, default=str)
 
 

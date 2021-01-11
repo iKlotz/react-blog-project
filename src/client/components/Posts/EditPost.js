@@ -11,7 +11,7 @@ import Redirect from "react-router-dom/es/Redirect";
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import {withStyles} from "@material-ui/core/styles";
-import Sections from "../Main/Sections";
+import Sections from "./Sections";
 import Cookies from "universal-cookie";
 
 const styles = theme => ({

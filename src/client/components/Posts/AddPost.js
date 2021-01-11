@@ -9,7 +9,7 @@ import AddTag from "../Tags/AddTag";
 import TagsArray from "../Tags/TagsArray";
 import Alert from '@material-ui/lab/Alert';
 import {Redirect} from 'react-router-dom';
-import Sections from "../Main/Sections";
+import Sections from "./Sections";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
@@ -27,7 +27,6 @@ class NewPost extends React.Component {
             tags: [],
             isSubmitted: false,
             errorAlert: false
-
         };
     }
 
@@ -96,7 +95,6 @@ class NewPost extends React.Component {
 
 
         axios.put('/posts', data).then(res => {
-            //const post = res.data;
             console.log(res.data);
             this.setState({
                 title: '',
@@ -171,10 +169,9 @@ class NewPost extends React.Component {
                         </Grid>
                         <AddTag id={postId} addTag={this.addTag} setTag={this.getTags}/>
                         <Divider/>
-                        {/*{this.state.tags > 0 && <TagsArray tags={this.getTags} postId={postId}/>}*/}
                         {this.state.tags ? ((this.state.tags.length > 0) && <TagsArray tags={this.state.tags} postId={postId} handleDelete={this.handleDelete}/>) : null}
                         <Divider/>
-                        <Sections/>
+                        {/*<Sections/>*/}
 
                         <Grid container justify="flex-end" style={{marginTop: '10px'}}>
                             <Button

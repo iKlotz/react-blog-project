@@ -102,7 +102,7 @@ function PostCard(props) {
                         </Box>
                     </Box>
                     <Box>
-                        <BookmarkBorderIcon/>
+                        {/*<BookmarkBorderIcon/>*/}
                     </Box>
                 </CardActions>
             </Card>

@@ -9,7 +9,13 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Avatar from "@material-ui/core/Avatar";
 import Container from "@material-ui/core/Container";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import {withStyles} from "@material-ui/core/styles";
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function Copyright() {
     return (
@@ -56,7 +62,8 @@ class Login extends React.Component {
         this.setState({
             email: null,
             password: null,
-            serverResponse: null
+            serverResponse: null,
+            error: false
         });
     }
 
@@ -85,7 +92,8 @@ class Login extends React.Component {
             .catch((err) => {
                 console.log("Error during login");
                 this.setState({
-                    serverResponse: "Error: failed to login."
+                    serverResponse: "error",
+                    error: true
                 });
             });
     };
@@ -104,6 +112,17 @@ class Login extends React.Component {
     };
 
 
+    handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        this.setState({
+            error: false
+        });
+    };
+
+
     render() {
         const {classes} = this.props;
 
@@ -111,7 +130,7 @@ class Login extends React.Component {
             return (<Redirect to="/"/>)
         }
 
-        const {email, password} = this.state;
+        const {email, password, error} = this.state;
 
         return (
             <Container component="main" maxWidth="xs">
@@ -183,6 +202,13 @@ class Login extends React.Component {
                 <Box mt={8}>
                     <Copyright/>
                 </Box>
+                <div>
+                    <Snackbar open={error} autoHideDuration={6000} onClose={this.handleClose}>
+                        <Alert onClose={this.handleClose} severity="error">
+                            Something went wrong, please try again!
+                        </Alert>
+                    </Snackbar>
+                </div>
             </Container>
         );
     }

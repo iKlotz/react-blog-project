@@ -13,6 +13,8 @@ import SaveIcon from '@material-ui/icons/Save';
 import {withStyles} from "@material-ui/core/styles";
 import Sections from "./Sections";
 import Cookies from "universal-cookie";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 const styles = theme => ({
     paper: {
@@ -27,6 +29,10 @@ const styles = theme => ({
 });
 
 const cookies = new Cookies();
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class EditPost extends React.Component {
 
@@ -54,8 +60,8 @@ class EditPost extends React.Component {
             content: content,
             authorId: userId,
             image: image,
-            isUpdated: false,
-            isDeleted: false
+            isDeleted: false,
+            isUpdated: false
         };
 
         let id = this.props.match.params.id;
@@ -110,6 +116,17 @@ class EditPost extends React.Component {
         });
     };
 
+    handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        this.setState({
+            isUpdated: false
+        });
+    };
+
+
     render() {
         let id = this.props.match.params.id;
 
@@ -119,11 +136,20 @@ class EditPost extends React.Component {
             return (<Redirect to={`/`}/>)
         }
 
-        if (this.state.isUpdated) {
-            return (<Redirect to={`/post/${id}`}/>)
-        }
+        // if (this.state.isUpdated) {
+        //     // <Redirect
+        //     //     to={{
+        //     //         pathname: "/login",
+        //     //         state: { from: location }
+        //     //     }}
+        //     return (<Redirect to={{
+        //         pathname: `/post/${id}`,
+        //         state: { isUpdated: true }
+        //         }}
+        //     />)
+        // }
 
-        const {title, image, content, authorId} = this.state;
+        const {title, image, content, authorId, isUpdated} = this.state;
 
         return (
             <Grid container justify="center" style={{minHeight: '80vh'}}>
@@ -179,7 +205,7 @@ class EditPost extends React.Component {
                         {this.state.tags ? ((this.state.tags.length > 0) &&
                             <TagsArray tags={this.state.tags} postId={id} handleDelete={this.handleDelete}/>) : null}
                         <Divider/>
-                        <Sections/>
+                        {/*<Sections/>*/}
 
                         <Grid container justify="flex-end" style={{marginTop: '10px'}}>
                             <Button
@@ -204,6 +230,13 @@ class EditPost extends React.Component {
                             </Button>
                         </Grid>
                     </form>
+                </div>
+                <div>
+                    <Snackbar open={isUpdated} autoHideDuration={6000} onClose={this.handleClose}>
+                        <Alert onClose={this.handleClose} severity="success">
+                            Your post was successfully updated!
+                        </Alert>
+                    </Snackbar>
                 </div>
             </Grid>
         )

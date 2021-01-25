@@ -78,7 +78,6 @@ function MainSection() {
                     <Posts/>
                 </Grid>
             </Container>
-
         </section>
     );
 }

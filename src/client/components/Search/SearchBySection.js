@@ -55,7 +55,6 @@ class SearchBySection extends React.Component {
                 />
             );
         })
-
     }
 }
 

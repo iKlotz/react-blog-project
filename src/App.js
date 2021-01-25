@@ -4,7 +4,7 @@ import {BrowserRouter as Router, Redirect, Route, Switch, useParams} from "react
 import HomePage from "./client/pages/HomePage";
 import About from "./client/pages/About";
 import ContactMe from "./client/pages/ContactMe";
-import PostPage from "./client/pages/PostPage";
+import Post from "./client/components/Posts/Post";
 import CreatePostPage from "./client/pages/CreatePostPage";
 import SearchPage from "./client/pages/SearchPage";
 import Login from "./client/components/Auth/Login";
@@ -17,6 +17,7 @@ import Cookies from 'universal-cookie';
 import LoginPage from "./client/pages/LoginPage";
 import RegisterPage from "./client/pages/RegisterPage";
 import SearchBySectionPage from "./client/pages/SearchBySectionPage";
+import PostPage from "./client/pages/PostPage";
 
 const cookies = new Cookies();
 

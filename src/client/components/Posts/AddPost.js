@@ -7,12 +7,17 @@ import Typography from "@material-ui/core/Typography";
 import {Divider} from "@material-ui/core";
 import AddTag from "../Tags/AddTag";
 import TagsArray from "../Tags/TagsArray";
-import Alert from '@material-ui/lab/Alert';
 import {Redirect} from 'react-router-dom';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import Sections from "./Sections";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class NewPost extends React.Component {
 
@@ -70,7 +75,7 @@ class NewPost extends React.Component {
     handleDelete = (tagToDelete) => () => {
         this.setState({chips: (tags) => tags.filter((chip) => chip.key !== tagToDelete.key)});
 
-        const { label } = tagToDelete;
+        const {label} = tagToDelete;
         let id = this.state.postId;
         console.log(id);
         axios.post(`/posts/${id}/tags/${label}`).then(res => {
@@ -79,7 +84,16 @@ class NewPost extends React.Component {
         console.log('handle detele');
     };
 
+    handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
 
+        this.setState({
+            errorAlert: false,
+            isSubmitted: false
+        });
+    };
 
     onSubmit = (e) => {
         e.preventDefault();
@@ -111,9 +125,10 @@ class NewPost extends React.Component {
     render() {
         const {title, image, content, isSubmitted, errorAlert, postId} = this.state;
 
-        if (isSubmitted) {
-            return <Redirect to="/"/>
-        }
+        //alternative, to redirect to the main page on submit
+        // if (isSubmitted) {
+        //     return <Redirect to="/"/>
+        // }
 
         return (
             <Grid container justify="center" style={{minHeight: '80vh'}}>
@@ -124,65 +139,79 @@ class NewPost extends React.Component {
                         </Typography>
                     </Grid>
                     {/*<form>*/}
-                        <Grid item xs={12} sm={6} md={6}>
-                            <TextField
-                                id="standard-multiline-static"
-                                label="Title"
-                                multiline
-                                rowsMax={4}
-                                placeholder="Give it a good name..."
-                                variant="outlined"
-                                onChange={this.onChange}
-                                value={title}
-                                name="title"
-                                required="true"
-                                style={{width: 600, marginTop: '15px'}}
-                            />
-                        </Grid>
-                        <Grid item>
-                            <TextField
-                                id="standard-multiline-static"
-                                label="Content"
-                                multiline
-                                rows={8}
-                                placeholder="Write your thoughts here..."
-                                variant="outlined"
-                                onChange={this.onChange}
-                                value={content}
-                                name="content"
-                                required="true"
-                                style={{width: 600, marginTop: '10px'}}
-                            />
-                        </Grid>
-                        <Grid>
-                            <TextField
-                                id="filled-helperText"
-                                label="Link"
-                                placeholder="https://image-you-want-to-add.com"
-                                helperText="Add your images URL here"
-                                variant="outlined"
-                                onChange={this.onChange}
-                                value={image}
-                                name="image"
-                                style={{width: 600, marginTop: '10px'}}
-                            />
-                        </Grid>
-                        <AddTag id={postId} addTag={this.addTag} setTag={this.getTags}/>
-                        <Divider/>
-                        {this.state.tags ? ((this.state.tags.length > 0) && <TagsArray tags={this.state.tags} postId={postId} handleDelete={this.handleDelete}/>) : null}
-                        <Divider/>
-                        {/*<Sections/>*/}
+                    <Grid item xs={12} sm={6} md={6}>
+                        <TextField
+                            id="standard-multiline-static"
+                            label="Title"
+                            multiline
+                            rowsMax={4}
+                            placeholder="Give it a good name..."
+                            variant="outlined"
+                            onChange={this.onChange}
+                            value={title}
+                            name="title"
+                            required="true"
+                            style={{width: 600, marginTop: '15px'}}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            id="standard-multiline-static"
+                            label="Content"
+                            multiline
+                            rows={8}
+                            placeholder="Write your thoughts here..."
+                            variant="outlined"
+                            onChange={this.onChange}
+                            value={content}
+                            name="content"
+                            required="true"
+                            style={{width: 600, marginTop: '10px'}}
+                        />
+                    </Grid>
+                    <Grid>
+                        <TextField
+                            id="filled-helperText"
+                            label="Link"
+                            placeholder="https://image-you-want-to-add.com"
+                            helperText="Add your images URL here"
+                            variant="outlined"
+                            onChange={this.onChange}
+                            value={image}
+                            name="image"
+                            style={{width: 600, marginTop: '10px'}}
+                        />
+                    </Grid>
+                    <AddTag id={postId} addTag={this.addTag} setTag={this.getTags}/>
+                    <Divider/>
+                    {this.state.tags ? ((this.state.tags.length > 0) &&
+                        <TagsArray tags={this.state.tags} postId={postId} handleDelete={this.handleDelete}/>) : null}
+                    <Divider/>
+                    {/*<Sections/>*/}
 
-                        <Grid container justify="flex-end" style={{marginTop: '10px'}}>
-                            <Button
-                                variant="outlined"
-                                type="submit"
-                                onClick={this.onSubmit}
-                            >
-                                Save post
-                            </Button>
-                        </Grid>
-                        {errorAlert ? <Alert severity="error" style={{marginTop: '10px'}}>Something went wrong...</Alert> : null}
+                    <Grid container justify="flex-end" style={{marginTop: '10px'}}>
+                        <Button
+                            variant="outlined"
+                            type="submit"
+                            onClick={this.onSubmit}
+                        >
+                            Save post
+                        </Button>
+                    </Grid>
+                    <div>
+                        <Snackbar open={errorAlert} autoHideDuration={6000} onClose={this.handleClose}>
+                            <Alert onClose={this.handleClose} severity="error">
+                                Something went wrong, please try again!
+                            </Alert>
+                        </Snackbar>
+                    </div>
+                    <div>
+                        <Snackbar open={isSubmitted} autoHideDuration={6000} onClose={this.handleClose}>
+                            <Alert onClose={this.handleClose} severity="success">
+                                Your post was successfully submitted!
+                            </Alert>
+                        </Snackbar>
+                    </div>
                     {/*</form>*/}
                 </div>
             </Grid>

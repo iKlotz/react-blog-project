@@ -5,6 +5,9 @@ import json
 from flask_cors import CORS
 import bcrypt
 import uuid
+import time
+import threading
+
 
 db = mysql.connect(
     #aws db connection
@@ -18,6 +21,7 @@ db = mysql.connect(
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 CORS(app)
+
 
 @app.route('/')
 def index():
@@ -404,7 +408,21 @@ def api_alive():
     return "It's a new dawn, It's a new day, It's a new life for me and I'm feeling good!"
 
 
+def cleaning_task():
+    while True:
+        time.sleep(3600)
+        print("Background db cleaning task is running...")
+        query = "delete from posts where status='draft'"
+        cursor = db.cursor()
+        cursor.execute(query,)
+        db.commit()
+        cursor.close()
+
+
 if __name__ == "__main__":
+    th = threading.Thread(target=cleaning_task)
+    th.daemon = True
+    th.start()
     app.run()
 
 
